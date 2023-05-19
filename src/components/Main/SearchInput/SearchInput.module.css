@@ -1,0 +1,62 @@
+.inputBox{
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin: 0 auto;
+    transition: .3s;
+}
+
+.inputBox.active{
+    width: 390px;
+    height: 44px;
+}
+
+.input {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 0;
+    height: 0;
+    background: #162D4F;
+    border-radius: 25px;
+    border: none;
+    padding: 0 10px;
+    color: #ffffff;
+    transition: .3s;
+}
+
+.input.active{
+    width: 390px;
+    height: 44px;
+    right: 0;
+    top: 0;
+}
+
+.btn{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 40px;
+    height: 40px;
+    background: #162D4F;
+    box-shadow: inset 4px -4px 4px rgba(0, 19, 53, 0.98), inset -4px 4px 4px rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.btn path{
+    fill: #0054FF;
+    transition: .3s;
+}
+
+.btn.active{
+    background: #0054FF;
+    box-shadow: none;
+}
+
+.btn.active path{
+    fill: #ffffff;
+}
+
