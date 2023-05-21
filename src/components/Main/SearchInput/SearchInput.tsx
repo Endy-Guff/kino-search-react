@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './SearchInput.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {instance, RootStateType} from "../../../redux/store";
-import {changeSearchInputValueAC, setFilmsAC} from "../../../redux/dataReducer";
+import {changeSearchInputValueAC, setFilmsAC, setPageTitleAC} from "../../../redux/dataReducer";
 
 export const SearchInput = () => {
 
@@ -15,6 +15,7 @@ export const SearchInput = () => {
         instance
             .get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchValue}&page=1`)
             .then(response=>dispatch(setFilmsAC(response.data)))
+        dispatch(setPageTitleAC(`Результаты поискового запроса: ${searchValue}`))
     }, [searchValue])
 
     const inputValue = useSelector<RootStateType, string>(state => state.data.searchInputValue)
@@ -30,6 +31,7 @@ export const SearchInput = () => {
 
     const searchHandler = () => {
         setSearchValue(inputValue)
+        dispatch(changeSearchInputValueAC(''))
     }
 
     return (

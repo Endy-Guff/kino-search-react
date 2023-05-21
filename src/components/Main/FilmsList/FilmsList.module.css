@@ -1,5 +1,42 @@
-.wrapper{
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.films {
+    margin-bottom: 30px;
     display: flex;
     gap: 32px;
     flex-wrap: wrap;
+}
+
+.pages {
+    display: flex;
+    gap: 5px;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'HelveticaNeueCyr';
+    font-size: 20px;
+    padding: 4px;
+    width: 35px;
+    height: 35px;
+    color: #ffffff;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.page:hover{
+    background: #162D4F;
+}
+
+.page.active{
+    background: #0054FF;
 }
