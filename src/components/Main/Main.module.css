@@ -3,3 +3,11 @@
     background-color: #00152C;
     padding: 100px 0;
 }
+
+.title{
+    font-family: 'HelveticaNeueCyr';
+    font-size: 48px;
+    font-weight: 800;
+    color: #fff;
+    margin: 25px 0;
+}

@@ -28,12 +28,20 @@ export type FilmsType = {
     nameRu: string
     year: string
     filmLength: string
-    countries: [country: string]
-    genres: [genre: string]
+    countries: CountriesType[]
+    genres: GenresType[]
     rating: string
     posterUrl: string
     posterUrlPreview: string
     description?: string
+}
+
+export type CountriesType = {
+    country: string
+}
+
+export type GenresType = {
+    genre: string
 }
 
 export type FilmsDataType = {

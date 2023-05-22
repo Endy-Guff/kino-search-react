@@ -31,15 +31,24 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
                     filmName={film.nameRu}
                     posterPreview={film.posterUrlPreview}
                     rating={+film.rating}
+                    filmYear={film.year}
+                    country={film.countries}
+                    filmLength={film.filmLength}
                 />
             })}
             </div>
             <div className={s.pages}>
-                {pages.map(p => <span
-                                    key={p}
-                                    className={currentPage===p?s.page+' '+s.active:s.page}
-                                    onClick={()=>setCurrentPage(p)}
-                >{p}</span>)}
+                {pages.map(p => {
+
+                    const pageClass = currentPage === p ? s.page + ' ' + s.active : s.page
+
+                    return <span
+                        key={p}
+                        className={pageClass}
+                        onClick={() => setCurrentPage(p)}
+                    >{p}</span>
+                })
+                }
             </div>
         </div>
     );

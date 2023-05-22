@@ -37,7 +37,7 @@ export const Main = () => {
         <main className={s.wrapper}>
             <div className='container'>
                 <SearchInput />
-                <h2>{data.pageTitle}</h2>
+                <h2 className={s.title}>{data.pageTitle}</h2>
                 <FilmsList
                     filmsData={data.filmsData}
                     pages={pages}
