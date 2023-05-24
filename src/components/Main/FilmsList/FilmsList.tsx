@@ -4,6 +4,7 @@ import {instance, RootStateType} from "../../../redux/store";
 import {useDispatch, useSelector} from "react-redux";
 import {FilmsDataType, FilmsType, setFilmsAC} from "../../../redux/dataReducer";
 import {FilmItem} from "./FilmItem/FilmItem";
+import {log} from "util";
 
 type FilmsListPropsType = {
     filmsData: FilmsDataType
@@ -21,12 +22,11 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
     }
 ) => {
 
-
     return (
         <div className={s.wrapper}>
             <div className={s.films}>
             {filmsData.films.map(film => {
-                return <FilmItem
+                return film.nameRu!==undefined && <FilmItem
                     key={film.filmId}
                     filmName={film.nameRu}
                     posterPreview={film.posterUrlPreview}

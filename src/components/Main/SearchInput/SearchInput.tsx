@@ -2,7 +2,13 @@ import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
 import s from './SearchInput.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {instance, RootStateType} from "../../../redux/store";
-import {changeSearchInputValueAC, setFilmsAC, setPageTitleAC} from "../../../redux/dataReducer";
+import {
+    changeSearchInputValueAC,
+    setFilmsAC,
+    setModeAC,
+    setPageTitleAC,
+    setSearchValueAC
+} from "../../../redux/dataReducer";
 
 export const SearchInput = () => {
 
@@ -11,14 +17,14 @@ export const SearchInput = () => {
     let [inputActive, setInputActive] = useState<boolean>(false)
     let [searchValue, setSearchValue] = useState<string>('')
 
-    useEffect(()=>{
-        instance
-            .get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchValue}&page=1`)
-            .then(response=>dispatch(setFilmsAC(response.data)))
-        dispatch(setPageTitleAC(`Результаты поискового запроса: ${searchValue}`))
-    }, [searchValue])
+    // useEffect(()=>{
+    //     instance
+    //         .get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchValue}&page=1`)
+    //         .then(response=>dispatch(setFilmsAC(response.data)))
+    //     dispatch(setPageTitleAC(`Результаты поискового запроса: ${searchValue}`))
+    // }, [searchValue])
 
-    const inputValue = useSelector<RootStateType, string>(state => state.data.searchInputValue)
+    const inputValue = useSelector<RootStateType, string>(state => state.data.searchChangeInputValue)
     const dispatch = useDispatch()
 
     const inputBoxActiveClass = inputActive?s.inputBox + ' ' + s.active:s.inputBox
@@ -30,13 +36,15 @@ export const SearchInput = () => {
     }
 
     const searchOnClickHandler = () => {
-        setSearchValue(inputValue)
+        dispatch(setModeAC('SEARCH'))
+        dispatch(setSearchValueAC(inputValue))
         dispatch(changeSearchInputValueAC(''))
     }
 
     const searchOnKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) =>{
         if (e.key === 'Enter'){
-            setSearchValue(inputValue)
+            dispatch(setSearchValueAC(inputValue))
+            dispatch(setModeAC('SEARCH'))
             dispatch(changeSearchInputValueAC(''))
         }
     }

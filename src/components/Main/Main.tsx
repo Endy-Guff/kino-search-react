@@ -28,10 +28,20 @@ export const Main = () => {
     }, [dispatch])
 
     useEffect(()=>{
-        instance.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=${data.currentPage}`)
-            .then(response=>dispatch(setFilmsAC(response.data)))
-        dispatch(setPageTitleAC('Топ фильмов'))
-    }, [data.currentPage])
+        switch (data.mode) {
+            case "TOP_250":
+                instance.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=${data.currentPage}`)
+                    .then(response => dispatch(setFilmsAC(response.data)))
+                dispatch(setPageTitleAC('Топ фильмов'))
+                break
+            case "SEARCH":
+                instance
+                    .get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${data.searchValue}&page=${data.currentPage}`)
+                    .then(response=>dispatch(setFilmsAC(response.data)))
+                dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
+                break
+        }
+    }, [data.currentPage, data.searchValue])
 
     return (
         <main className={s.wrapper}>
