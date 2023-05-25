@@ -49,13 +49,14 @@ export const Main = () => {
                 dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
                 break
             case "CURRENT_FILM":
+                console.log(123)
                 api.getFilmById(data.currentFilmId)
                     .then(response=>{
                         dispatch(setCurrentFilmAC(response.data))
                         dispatch(changeIsLoaderAC(false))
                     })
         }
-    }, [data.currentPage, data.searchValue, data.currentFilm])
+    }, [data.currentPage, data.searchValue, data.mode])
 
     const setCurrentFilmId = (currentFilmId: number) =>{
         dispatch(setModeAC("CURRENT_FILM"))
@@ -69,7 +70,7 @@ export const Main = () => {
                 <h2 className={s.title}>{data.pageTitle}</h2>
                 <div className={s.inner}>
                     {data.isLoader ? <Preloader />
-                        :!data.currentFilm?<CurrentFilm film={data.currentFilm}/>:<FilmsList
+                        :data.currentFilm?<CurrentFilm film={data.currentFilm}/>:<FilmsList
 
                             filmsData={data.filmsData}
                             pages={pages}
