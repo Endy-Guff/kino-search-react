@@ -4,6 +4,7 @@ const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_PAGE_TITLE = 'SET_PAGE_TITLE'
 const SET_MODE = 'SET_MODE'
+const CHANGE_IS_LOADER = 'CHANGE_IS_LOADER'
 
 type SetFilmsACType = {
     type: 'SET_FILMS'
@@ -33,6 +34,11 @@ type setSearchValueACType = {
 type setModeACType = {
     type: 'SET_MODE'
     mode: 'TOP_250' | 'SEARCH'
+}
+
+type changeIsLoaderACType = {
+    type: 'CHANGE_IS_LOADER'
+    isLoader: boolean
 }
 
 export type FilmsType = {
@@ -71,10 +77,11 @@ export type StateType = {
     searchValue: string
     currentPage: number
     mode: ModeType
+    isLoader: boolean
 }
 
 type ActionsType = SetFilmsACType | changeSearchInputValueACType | setCurrentPageACType | setPageTitleACType
-| setSearchValueACType | setModeACType
+| setSearchValueACType | setModeACType | changeIsLoaderACType
 
 const initialState: StateType = {
     filmsData: {
@@ -86,6 +93,7 @@ const initialState: StateType = {
     searchChangeInputValue: '',
     searchValue: '',
     mode: 'TOP_250',
+    isLoader: false,
     currentPage: 1
 }
 
@@ -103,6 +111,8 @@ export const dataReducer = (state:StateType = initialState, action: ActionsType)
             return {...state, searchValue: action.value}
         case SET_MODE:
             return {...state, mode: action.mode}
+        case CHANGE_IS_LOADER:
+            return {...state, isLoader: action.isLoader}
         default:
             return state
     }
@@ -147,5 +157,12 @@ export const setModeAC = (mode: ModeType): setModeACType =>{
     return{
         type: SET_MODE,
         mode
+    }
+}
+
+export const changeIsLoaderAC = (isLoader: boolean): changeIsLoaderACType =>{
+    return{
+        type: CHANGE_IS_LOADER,
+        isLoader
     }
 }

@@ -1,12 +1,10 @@
-import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from './SearchInput.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../redux/store";
 import {
     changeSearchInputValueAC,
-    setFilmsAC,
     setModeAC,
-    setPageTitleAC,
     setSearchValueAC
 } from "../../../redux/dataReducer";
 
@@ -15,7 +13,6 @@ export const SearchInput = () => {
 
 
     let [inputActive, setInputActive] = useState<boolean>(false)
-    let [searchValue, setSearchValue] = useState<string>('')
 
     // useEffect(()=>{
     //     instance
