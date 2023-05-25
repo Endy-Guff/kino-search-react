@@ -1,10 +1,7 @@
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo} from 'react';
 import s from './FilmsList.module.css'
-import {instance, RootStateType} from "../../../redux/store";
-import {useDispatch, useSelector} from "react-redux";
-import {FilmsDataType, FilmsType, setFilmsAC} from "../../../redux/dataReducer";
+import {FilmsDataType} from "../../../redux/dataReducer";
 import {FilmItem} from "./FilmItem/FilmItem";
-import {log} from "util";
 
 type FilmsListPropsType = {
     filmsData: FilmsDataType

@@ -2,16 +2,15 @@ import React, {useCallback, useEffect} from 'react';
 import s from './Main.module.css'
 import {SearchInput} from "./SearchInput/SearchInput";
 import {FilmsList} from "./FilmsList/FilmsList";
-import {instance, RootStateType} from "../../redux/store";
+import {RootStateType} from "../../redux/store";
 import {
-    FilmsDataType,
-    FilmsType,
     setCurrentPageAC,
     setFilmsAC,
     setPageTitleAC,
     StateType
 } from "../../redux/dataReducer";
 import {useDispatch, useSelector} from "react-redux";
+import {api} from "../../api/api";
 
 export const Main = () => {
 
@@ -30,13 +29,12 @@ export const Main = () => {
     useEffect(()=>{
         switch (data.mode) {
             case "TOP_250":
-                instance.get(`https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=${data.currentPage}`)
+                api.getTop250(data.currentPage)
                     .then(response => dispatch(setFilmsAC(response.data)))
                 dispatch(setPageTitleAC('Топ фильмов'))
                 break
             case "SEARCH":
-                instance
-                    .get(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${data.searchValue}&page=${data.currentPage}`)
+                api.getSearchFilm(data.currentPage, data.searchValue)
                     .then(response=>dispatch(setFilmsAC(response.data)))
                 dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
                 break

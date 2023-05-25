@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react';
 import s from './SearchInput.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import {instance, RootStateType} from "../../../redux/store";
+import {RootStateType} from "../../../redux/store";
 import {
     changeSearchInputValueAC,
     setFilmsAC,
