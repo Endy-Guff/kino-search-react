@@ -4,15 +4,16 @@ import {SearchInput} from "./SearchInput/SearchInput";
 import {FilmsList} from "./FilmsList/FilmsList";
 import {RootStateType} from "../../redux/store";
 import {
-    changeIsLoaderAC,
+    changeIsLoaderAC, setCurrentFilmAC, setCurrentFilmIdAC,
     setCurrentPageAC,
-    setFilmsAC,
+    setFilmsAC, setModeAC,
     setPageTitleAC,
     StateType
 } from "../../redux/dataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../api/api"
-import loader from '../../assets/img/loader.svg'
+import {Preloader} from "../common/Preloader";
+import {CurrentFilm} from "./CurrentFilm/CurrentFilm";
 
 export const Main = () => {
 
@@ -47,21 +48,36 @@ export const Main = () => {
                     })
                 dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
                 break
+            case "CURRENT_FILM":
+                api.getFilmById(data.currentFilmId)
+                    .then(response=>{
+                        dispatch(setCurrentFilmAC(response.data))
+                        dispatch(changeIsLoaderAC(false))
+                    })
         }
-    }, [data.currentPage, data.searchValue])
+    }, [data.currentPage, data.searchValue, data.currentFilm])
+
+    const setCurrentFilmId = (currentFilmId: number) =>{
+        dispatch(setModeAC("CURRENT_FILM"))
+        dispatch(setCurrentFilmIdAC(currentFilmId))
+    }
 
     return (
         <main className={s.wrapper}>
             <div className='container'>
                 <SearchInput />
                 <h2 className={s.title}>{data.pageTitle}</h2>
-                {data.isLoader ? <img src={loader} alt=""/>
-                :<FilmsList
-                    filmsData={data.filmsData}
-                    pages={pages}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={data.currentPage}
-                />}
+                <div className={s.inner}>
+                    {data.isLoader ? <Preloader />
+                        :!data.currentFilm?<CurrentFilm film={data.currentFilm}/>:<FilmsList
+
+                            filmsData={data.filmsData}
+                            pages={pages}
+                            setCurrentPage={setCurrentPage}
+                            currentPage={data.currentPage}
+                            setCurrentFilmId={setCurrentFilmId}
+                        />}
+                </div>
             </div>
         </main>
     );

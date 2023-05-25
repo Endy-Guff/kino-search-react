@@ -9,6 +9,8 @@ type FilmItemPropsType = {
     filmYear: string
     country: CountriesType[]
     filmLength: string
+    filmId: number
+    setCurrentFilmId: (currentFilmId: number) => void
 }
 
 export const FilmItem: React.FC<FilmItemPropsType> = (
@@ -18,7 +20,10 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
         rating,
         filmYear,
         country,
-        filmLength
+        filmLength,
+        filmId,
+        setCurrentFilmId
+
     }
 ) => {
 
@@ -36,8 +41,12 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
 
     const cutFilmName = filmName.length>17?filmName.substr(0, 16) + '...':filmName
 
+    const onClickHandler = () =>{
+        setCurrentFilmId(filmId)
+    }
+
     return (
-        <div className={s.wrapper}>
+        <div className={s.wrapper} onClick={onClickHandler}>
             <div className={s.inner} style={{backgroundImage: `url(${posterPreview})`}}>
                 <div className={s.rating} style={{backgroundColor: `#${ratingColor(rating)}`}}>
                     <span>{rating}</span>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {FilmsDataType} from "../redux/dataReducer";
+import {CurrentFilmType, FilmsDataType} from "../redux/dataReducer";
 
 export const instance = axios.create({
     baseURL: 'https://kinopoiskapiunofficial.tech/api/v2.2',
@@ -16,5 +16,8 @@ export const api = {
     getSearchFilm(currentPage: number, searchValue: string) {
         return  instance.get<FilmsDataType>(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchValue}&page=${currentPage}`)
 
+    },
+    getFilmById(filmId: number) {
+        return instance.get<CurrentFilmType>(`/films/${filmId}`)
     }
 }

@@ -8,6 +8,7 @@ type FilmsListPropsType = {
     pages: number[]
     setCurrentPage: (pageNumber: number) => void
     currentPage: number
+    setCurrentFilmId: (currentFilmId: number) => void
 }
 
 export const FilmsList: React.FC<FilmsListPropsType> = memo((
@@ -15,7 +16,8 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
         filmsData,
         pages,
         setCurrentPage,
-        currentPage
+        currentPage,
+        setCurrentFilmId
     }
 ) => {
 
@@ -31,6 +33,8 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
                     filmYear={film.year}
                     country={film.countries}
                     filmLength={film.filmLength}
+                    filmId={film.filmId}
+                    setCurrentFilmId={setCurrentFilmId}
                 />
             })}
             </div>
