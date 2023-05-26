@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './FilmItem.module.css'
 import {CountriesType} from "../../../../redux/dataReducer";
+import {useNavigate, useParams} from "react-router-dom";
 
 type FilmItemPropsType = {
     filmName: string
@@ -10,7 +11,6 @@ type FilmItemPropsType = {
     country: CountriesType[]
     filmLength: string
     filmId: number
-    setCurrentFilmId: (currentFilmId: number) => void
 }
 
 export const FilmItem: React.FC<FilmItemPropsType> = (
@@ -22,10 +22,11 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
         country,
         filmLength,
         filmId,
-        setCurrentFilmId
 
     }
 ) => {
+
+    const navigate = useNavigate()
 
     const ratingColor = (rating: number) =>{
         if (rating<=3){
@@ -42,9 +43,8 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
     const cutFilmName = filmName.length>17?filmName.substr(0, 16) + '...':filmName
 
     const onClickHandler = () =>{
-        setCurrentFilmId(filmId)
+        navigate(`/film/${filmId}`)
     }
-
     return (
         <div className={s.wrapper} onClick={onClickHandler}>
             <div className={s.inner} style={{backgroundImage: `url(${posterPreview})`}}>

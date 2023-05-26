@@ -17,7 +17,7 @@ export const api = {
         return  instance.get<FilmsDataType>(`https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${searchValue}&page=${currentPage}`)
 
     },
-    getFilmById(filmId: number) {
+    getFilmById(filmId: string) {
         return instance.get<CurrentFilmType>(`/films/${filmId}`)
     }
 }

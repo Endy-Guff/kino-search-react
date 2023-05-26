@@ -7,6 +7,7 @@ import {
     setModeAC,
     setSearchValueAC
 } from "../../../redux/dataReducer";
+import {useNavigate} from "react-router-dom";
 
 export const SearchInput = () => {
 
@@ -28,6 +29,8 @@ export const SearchInput = () => {
     const inputActiveClass = inputActive?s.input + ' ' + s.active:s.input
     const btnActiveClass = inputActive?s.btn + ' ' + s.active:s.btn
 
+    const navigate = useNavigate()
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>{
         dispatch(changeSearchInputValueAC(e.currentTarget.value))
     }
@@ -36,6 +39,7 @@ export const SearchInput = () => {
         dispatch(setModeAC('SEARCH'))
         dispatch(setSearchValueAC(inputValue))
         dispatch(changeSearchInputValueAC(''))
+        navigate('/')
     }
 
     const searchOnKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) =>{
@@ -43,6 +47,7 @@ export const SearchInput = () => {
             dispatch(setSearchValueAC(inputValue))
             dispatch(setModeAC('SEARCH'))
             dispatch(changeSearchInputValueAC(''))
+            navigate('/')
         }
     }
 

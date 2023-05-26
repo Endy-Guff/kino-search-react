@@ -14,6 +14,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../api/api"
 import {Preloader} from "../common/Preloader";
 import {CurrentFilm} from "./CurrentFilm/CurrentFilm";
+import {Route, Routes, useParams} from 'react-router-dom'
+import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 
 export const Main = () => {
 
@@ -21,15 +23,15 @@ export const Main = () => {
     const dispatch = useDispatch()
 
     const pages = []
-    for (let i = 1; i<=data.filmsData.pagesCount; i++){
+    for (let i = 1; i <= data.filmsData.pagesCount; i++) {
         pages.push(i)
     }
 
-    const setCurrentPage = useCallback((pageNumber: number) =>{
+    const setCurrentPage = useCallback((pageNumber: number) => {
         dispatch(setCurrentPageAC(pageNumber))
     }, [dispatch])
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(changeIsLoaderAC(true))
         switch (data.mode) {
             case "TOP_250":
@@ -42,42 +44,60 @@ export const Main = () => {
                 break
             case "SEARCH":
                 api.getSearchFilm(data.currentPage, data.searchValue)
-                    .then(response=> {
+                    .then(response => {
                         dispatch(setFilmsAC(response.data))
                         dispatch(changeIsLoaderAC(false))
                     })
                 dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
                 break
             case "CURRENT_FILM":
-                console.log(123)
                 api.getFilmById(data.currentFilmId)
-                    .then(response=>{
+                    .then(response => {
                         dispatch(setCurrentFilmAC(response.data))
                         dispatch(changeIsLoaderAC(false))
                     })
         }
-    }, [data.currentPage, data.searchValue, data.mode])
+    }, [data.currentPage, data.searchValue, data.mode, data.currentFilmId])
 
-    const setCurrentFilmId = (currentFilmId: number) =>{
+    const setMode = () => {
         dispatch(setModeAC("CURRENT_FILM"))
-        dispatch(setCurrentFilmIdAC(currentFilmId))
     }
 
     return (
         <main className={s.wrapper}>
             <div className='container'>
-                <SearchInput />
+                <SearchInput/>
                 <h2 className={s.title}>{data.pageTitle}</h2>
                 <div className={s.inner}>
-                    {data.isLoader ? <Preloader />
-                        :data.currentFilm?<CurrentFilm film={data.currentFilm}/>:<FilmsList
+                    {data.isLoader ? <Preloader/>
+                        : <Routes>
+                            <Route path='/' element={<FilmsList
 
-                            filmsData={data.filmsData}
-                            pages={pages}
-                            setCurrentPage={setCurrentPage}
-                            currentPage={data.currentPage}
-                            setCurrentFilmId={setCurrentFilmId}
-                        />}
+                                    filmsData={data.filmsData}
+                                    pages={pages}
+                                    setCurrentPage={setCurrentPage}
+                                    currentPage={data.currentPage}
+                                />
+                            }/>
+                            <Route path={'/film/:filmId'} element={<CurrentFilmContainer
+                                film={data.currentFilm}
+                                setMode={setMode}
+                            />}
+                            />
+                        </Routes>
+
+                    }
+
+
+                    {/*{data.isLoader ? <Preloader />*/}
+                    {/*    :data.currentFilm?<CurrentFilm film={data.currentFilm}/>:<FilmsList*/}
+
+                    {/*        filmsData={data.filmsData}*/}
+                    {/*        pages={pages}*/}
+                    {/*        setCurrentPage={setCurrentPage}*/}
+                    {/*        currentPage={data.currentPage}*/}
+                    {/*        setMode={setMode}*/}
+                    {/*    />}*/}
                 </div>
             </div>
         </main>

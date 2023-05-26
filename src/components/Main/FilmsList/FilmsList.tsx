@@ -2,13 +2,14 @@ import React, {memo} from 'react';
 import s from './FilmsList.module.css'
 import {FilmsDataType} from "../../../redux/dataReducer";
 import {FilmItem} from "./FilmItem/FilmItem";
+import {log} from "util";
+import {useParams} from "react-router-dom";
 
 type FilmsListPropsType = {
     filmsData: FilmsDataType
     pages: number[]
     setCurrentPage: (pageNumber: number) => void
     currentPage: number
-    setCurrentFilmId: (currentFilmId: number) => void
 }
 
 export const FilmsList: React.FC<FilmsListPropsType> = memo((
@@ -17,7 +18,6 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
         pages,
         setCurrentPage,
         currentPage,
-        setCurrentFilmId
     }
 ) => {
 
@@ -34,7 +34,6 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
                     country={film.countries}
                     filmLength={film.filmLength}
                     filmId={film.filmId}
-                    setCurrentFilmId={setCurrentFilmId}
                 />
             })}
             </div>

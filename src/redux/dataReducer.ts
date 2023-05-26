@@ -45,7 +45,7 @@ type changeIsLoaderACType = {
 
 type setCurrentFilmIdACType = {
     type: 'SET_CURRENT_FILM_ID'
-    currentFilmId: number
+    currentFilmId: string
 }
 
 type setCurrentFilmACType ={
@@ -84,7 +84,7 @@ export type FilmsDataType = {
 
 export type StateType = {
     currentFilm: CurrentFilmType
-    currentFilmId: number
+    currentFilmId: string
     filmsData: FilmsDataType
     pageTitle: string
     searchChangeInputValue: string
@@ -152,7 +152,7 @@ const initialState: StateType = {
         films: []
     },
     currentFilm: null,
-    currentFilmId: 0,
+    currentFilmId: '0',
     pageTitle: 'Топ фильмов',
     searchChangeInputValue: '',
     searchValue: '',
@@ -235,7 +235,7 @@ export const changeIsLoaderAC = (isLoader: boolean): changeIsLoaderACType => {
     }
 }
 
-export const setCurrentFilmIdAC = (currentFilmId: number): setCurrentFilmIdACType =>{
+export const setCurrentFilmIdAC = (currentFilmId: string): setCurrentFilmIdACType =>{
     return{
         type : SET_CURRENT_FILM_ID,
         currentFilmId
