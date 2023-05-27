@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Preloader} from "../../common/Preloader";
-import {CurrentFilmType} from "../../../redux/dataReducer";
+import {CurrentFilmType, setFilmPersonsAC} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
+import {api} from "../../../api/api";
+import {useDispatch} from "react-redux";
 
 type CurrentFilmPropsType = {
     film:CurrentFilmType
@@ -12,6 +14,16 @@ export const CurrentFilm:React.FC<CurrentFilmPropsType> = (
         film
     }
 ) => {
+
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        if (film){
+            api.getFilmPerson(film.kinopoiskId)
+                .then(res=>dispatch(setFilmPersonsAC(res.data)))
+        }
+    }, [])
+
     if (!film){
         return <Preloader />
     }

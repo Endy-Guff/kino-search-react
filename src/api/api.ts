@@ -1,5 +1,5 @@
 import axios from "axios";
-import {CurrentFilmType, FilmsDataType} from "../redux/dataReducer";
+import {CurrentFilmType, FilmPersonType, FilmsDataType} from "../redux/dataReducer";
 
 export const instance = axios.create({
     baseURL: 'https://kinopoiskapiunofficial.tech/api/v2.2',
@@ -19,5 +19,8 @@ export const api = {
     },
     getFilmById(filmId: string) {
         return instance.get<CurrentFilmType>(`/films/${filmId}`)
+    },
+    getFilmPerson(filmId: number) {
+        return instance.get<FilmPersonType[]>(`https://kinopoiskapiunofficial.tech/api/v1/staff?filmId=${filmId}`)
     }
 }

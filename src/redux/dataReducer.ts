@@ -7,6 +7,7 @@ const SET_MODE = 'SET_MODE'
 const CHANGE_IS_LOADER = 'CHANGE_IS_LOADER'
 const SET_CURRENT_FILM = 'SET_CURRENT_FILM'
 const SET_CURRENT_FILM_ID = 'SET_CURRENT_FILM_ID'
+const SET_FILM_PERSONS = 'SET_FILM_PERSONS'
 
 type SetFilmsACType = {
     type: 'SET_FILMS'
@@ -51,6 +52,11 @@ type setCurrentFilmIdACType = {
 type setCurrentFilmACType ={
     type: 'SET_CURRENT_FILM'
     currentFilm: CurrentFilmType
+}
+
+type setFilmPersonsACType = {
+    type: 'SET_FILM_PERSONS'
+    persons: FilmPersonType[]
 }
 
 export type FilmsType = {
@@ -139,11 +145,22 @@ export type CurrentFilmType = null | {
     hasImax: boolean
     has3D: boolean
     lastSync: string
+    filmPersons: FilmPersonType[]
 }
 
+export type FilmPersonType = {
+    staffId: number
+    nameRu: string
+    nameEn: string
+    description: string
+    posterUrl: string
+    professionText: string
+    professionKey: string
+}
 
 type ActionsType = SetFilmsACType | changeSearchInputValueACType | setCurrentPageACType | setPageTitleACType
     | setSearchValueACType | setModeACType | changeIsLoaderACType | setCurrentFilmIdACType | setCurrentFilmACType
+    | setFilmPersonsACType
 
 const initialState: StateType = {
     filmsData: {
@@ -181,6 +198,8 @@ export const dataReducer = (state: StateType = initialState, action: ActionsType
             return {...state, currentFilmId: action.currentFilmId}
         case SET_CURRENT_FILM:
             return {...state, currentFilm: action.currentFilm}
+        case SET_FILM_PERSONS:
+            return <StateType>{...state, currentFilm: {...state.currentFilm, filmPersons: action.persons}}
         default:
             return state
     }
@@ -246,5 +265,12 @@ export const setCurrentFilmAC = (currentFilm: CurrentFilmType): setCurrentFilmAC
     return{
         type : SET_CURRENT_FILM,
         currentFilm
+    }
+}
+
+export const setFilmPersonsAC = (persons: FilmPersonType[]): setFilmPersonsACType =>{
+    return {
+        type: SET_FILM_PERSONS,
+        persons
     }
 }
