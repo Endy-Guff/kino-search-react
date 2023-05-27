@@ -17,7 +17,8 @@
 }
 
 .info{
-    max-width: 300px;
+    min-width: 430px;
+
 }
 
 .infoList{
@@ -31,6 +32,7 @@
 .infoItem{
     display: flex;
     gap: 20px;
+    align-items: flex-start;
 }
 
 .infoType{
@@ -39,11 +41,9 @@
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
-    display: flex;
-    align-items: center;
     color: #A1A1A1;
-
-    width: 198px;
+    display: block;
+    min-width: 198px;
 }
 
 .infoValue{
@@ -52,9 +52,15 @@
     font-weight: 700;
     font-size: 20px;
     line-height: 24px;
-    display: flex;
-    align-items: center;
     color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 430px;
+
+}
+
+.infoValue span{
+    height: 24px;
 }
 
 .imgBox{

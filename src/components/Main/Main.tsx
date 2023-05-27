@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../api/api"
 import {Preloader} from "../common/Preloader";
 import {CurrentFilm} from "./CurrentFilm/CurrentFilm";
-import {Route, Routes, useParams} from 'react-router-dom'
+import {Route, Routes, useLocation, useParams} from 'react-router-dom'
 import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 
 export const Main = () => {
@@ -63,11 +63,12 @@ export const Main = () => {
         dispatch(setModeAC("CURRENT_FILM"))
     }
 
+    const location = useLocation()
     return (
         <main className={s.wrapper}>
             <div className='container'>
                 <SearchInput/>
-                <h2 className={s.title}>{data.pageTitle}</h2>
+                {location.pathname==='/'?<h2 className={s.title}>{data.pageTitle}</h2>:null}
                 <div className={s.inner}>
                     {data.isLoader ? <Preloader/>
                         : <Routes>
