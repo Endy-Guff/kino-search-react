@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {Preloader} from "../../common/Preloader";
 import {CurrentFilmType, setFilmPersonsAC} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
@@ -6,38 +6,48 @@ import {api} from "../../../api/api";
 import {useDispatch} from "react-redux";
 
 type CurrentFilmPropsType = {
-    film:CurrentFilmType
+    film: CurrentFilmType
 }
 
-export const CurrentFilm:React.FC<CurrentFilmPropsType> = (
+export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
     {
         film
     }
 ) => {
 
+    let [activeTab, setActiveTab] = useState<number>(1)
+
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        if (film){
+    useEffect(() => {
+        if (film) {
             api.getFilmPerson(film.kinopoiskId)
-                .then(res=>dispatch(setFilmPersonsAC(res.data)))
+                .then(res => dispatch(setFilmPersonsAC(res.data)))
         }
     }, [])
-
-    if (!film){
-        return <Preloader />
+    if (!film) {
+        return <Preloader/>
     }
 
-    const numstr = (n:number) => {
+    const numstr = (n: number) => {
         const minutes = ['минута', 'минуты', 'минут']
 
         let m = Math.abs(n) % 100;
         let n1 = m % 10;
-        if (m > 10 && m < 20) { return `${n} ${minutes[2]}`; }
-        if (n1 > 1 && n1 < 5) { return `${n} ${minutes[1]}`; }
-        if (n1 == 1) { return `${n} ${minutes[0]}`; }
+        if (m > 10 && m < 20) {
+            return `${n} ${minutes[2]}`;
+        }
+        if (n1 > 1 && n1 < 5) {
+            return `${n} ${minutes[1]}`;
+        }
+        if (n1 == 1) {
+            return `${n} ${minutes[0]}`;
+        }
         return `${n} ${minutes[2]}`;
     }
+
+    const mappedCountries = film.countries?.map((c, i) => <span key={i}>{c.country}, &nbsp;</span>)
+    const mappedGenres = film.genres?.map((g, i) => <span key={i}>{g.genre}, &nbsp;</span>)
 
     return (
         <div className={s.wrapper}>
@@ -59,13 +69,13 @@ export const CurrentFilm:React.FC<CurrentFilmPropsType> = (
                         <li className={s.infoItem}>
                             <span className={s.infoType}>Страна:</span>
                             <span className={s.infoValue}>
-                                {film.countries.map((c, i)=><span key={i}>{c.country}, &nbsp;</span>)}
+                                {mappedCountries}
                             </span>
                         </li>
                         <li className={s.infoItem}>
                             <span className={s.infoType}>Жанр:</span>
                             <span className={s.infoValue}>
-                                {film.genres.map((g, i)=><span key={i}>{g.genre}, &nbsp;</span>)}
+                                {mappedGenres}
                             </span>
                         </li>
                         <li className={s.infoItem}>
@@ -83,7 +93,26 @@ export const CurrentFilm:React.FC<CurrentFilmPropsType> = (
                     </ul>
                 </div>
             </div>
+            {film.filmPersons&&<div className={s.personsBox}>
+                <div className={s.btnTabsBox}>
+                    <button className={activeTab===1?s.tabBtn+' '+s.active:s.tabBtn} onClick={()=>setActiveTab(1)}>Актеры</button>
+                    <button className={activeTab===2?s.tabBtn+' '+s.active:s.tabBtn} onClick={()=>setActiveTab(2)}>Режисёры</button>
+                </div>
+                <div className={s.contentTabsBox}>
+                    <div className={activeTab===1?s.tabsContent+' '+s.active:s.tabsContent}>
+                        {film.filmPersons.filter(p=>p.professionKey==='ACTOR').map(p=>{
+                            return <div className={s.tabsItem}>
+                                <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                <span className={s.itemName}>{p.nameRu}</span>
+                            </div>
+                        })}
+                    </div>
+                    <div className={activeTab===2?s.tabsContent+' '+s.active:s.tabsContent}>
+                        234
+                    </div>
+                </div>
+            </div>}
         </div>
     );
-};
+});
 

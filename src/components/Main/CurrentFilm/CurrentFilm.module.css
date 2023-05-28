@@ -1,8 +1,8 @@
-.wrapper{
+.wrapper {
     padding: 30px 0;
 }
 
-.title{
+.title {
     font-family: 'HelveticaNeueCyr';
     font-size: 32px;
     font-weight: 800;
@@ -11,17 +11,18 @@
     margin-bottom: 50px;
 }
 
-.inner{
+.inner {
     display: flex;
     gap: 50px;
+    margin-bottom: 40px;
 }
 
-.info{
+.info {
     min-width: 430px;
 
 }
 
-.infoList{
+.infoList {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -29,13 +30,13 @@
     gap: 15px;
 }
 
-.infoItem{
+.infoItem {
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
-.infoType{
+.infoType {
     font-family: 'HelveticaNeueCyr';
     font-style: normal;
     font-weight: 700;
@@ -46,7 +47,7 @@
     min-width: 198px;
 }
 
-.infoValue{
+.infoValue {
     font-family: 'HelveticaNeueCyr';
     font-style: normal;
     font-weight: 700;
@@ -59,18 +60,79 @@
 
 }
 
-.infoValue span{
+.infoValue span {
     height: 24px;
 }
 
-.imgBox{
+.imgBox {
     width: 360px;
-    height: 490px;
     border-radius: 15px;
     border: none;
     background: #0D1C2F;
 }
 
-.poster{
+.poster {
     border-radius: 15px;
+}
+
+
+.tabBtn {
+    width: 100px;
+    height: 35px;
+    border: none;
+
+    font-family: 'HelveticaNeueCyr';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 15px;
+    color: #FFFFFF;
+    border-radius: 25px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.tabBtn:hover {
+    background: #0054FF;
+}
+
+.tabBtn.active {
+    background: #0054FF;
+}
+
+.tabsContent {
+    display: none;
+    background: #0D1C2F;
+    border-radius: 15px;
+    height: 200px;
+    padding: 8px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.tabsContent::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tabsContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tabsContent::-webkit-scrollbar-thumb {
+    background-color: #0054FF;
+    border-radius: 20px;
+    border: solid 3px transparent;
+}
+
+.tabsContent.active {
+    display: flex;
+    gap: 10px;
+}
+
+.tabsItem {
+    height: 144px;
+}
+
+.itemImg {
+    width: 90px;
+    border-radius: 10px;
 }

@@ -7,6 +7,16 @@
   font-style: normal;
 }
 
+body::-webkit-scrollbar {
+  width: 8px;               /* ширина scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: transparent;        /* цвет дорожки */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #0054FF;    /* цвет плашки */
+  border-radius: 20px;       /* закругления плашки */
+}
 
 *,
 *:after,
@@ -19,7 +29,7 @@ body{
   margin: 0;
   font-family: Gilroy, sans-serif;
   font-size: 15px;
-  background-color: #fff;
+  background-color: #00152C;
 
 }
 

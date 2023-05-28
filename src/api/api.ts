@@ -4,7 +4,7 @@ import {CurrentFilmType, FilmPersonType, FilmsDataType} from "../redux/dataReduc
 export const instance = axios.create({
     baseURL: 'https://kinopoiskapiunofficial.tech/api/v2.2',
     headers: {
-        'X-API-KEY': 'bf4d11b7-7ada-4f2a-aa36-7e774b47c207',
+        'X-API-KEY': 'c64ab17b-d0cc-4679-90fa-e65b7c4e17b8',
         'Content-Type': 'application/json',
     }
 });
