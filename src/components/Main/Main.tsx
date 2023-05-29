@@ -4,7 +4,7 @@ import {SearchInput} from "./SearchInput/SearchInput";
 import {FilmsList} from "./FilmsList/FilmsList";
 import {RootStateType} from "../../redux/store";
 import {
-    changeIsLoaderAC, setCurrentFilmAC, setCurrentFilmIdAC,
+    changeIsLoaderAC,
     setCurrentPageAC,
     setFilmsAC, setModeAC,
     setPageTitleAC,
@@ -13,7 +13,6 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {api} from "../../api/api"
 import {Preloader} from "../common/Preloader";
-import {CurrentFilm} from "./CurrentFilm/CurrentFilm";
 import {Route, Routes, useLocation, useParams} from 'react-router-dom'
 import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 
@@ -32,9 +31,9 @@ export const Main = () => {
     }, [dispatch])
 
     useEffect(() => {
-        dispatch(changeIsLoaderAC(true))
         switch (data.mode) {
             case "TOP_250":
+                dispatch(changeIsLoaderAC(true))
                 api.getTop250(data.currentPage)
                     .then(response => {
                         dispatch(setFilmsAC(response.data))
@@ -43,6 +42,7 @@ export const Main = () => {
                 dispatch(setPageTitleAC('Топ фильмов'))
                 break
             case "SEARCH":
+                dispatch(changeIsLoaderAC(true))
                 api.getSearchFilm(data.currentPage, data.searchValue)
                     .then(response => {
                         dispatch(setFilmsAC(response.data))
@@ -50,19 +50,12 @@ export const Main = () => {
                     })
                 dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
                 break
-            case "CURRENT_FILM":
-                api.getFilmById(data.currentFilmId)
-                    .then(response => {
-                        dispatch(setCurrentFilmAC(response.data))
-                        dispatch(changeIsLoaderAC(false))
-                    })
         }
     }, [data.currentPage, data.searchValue, data.mode, data.currentFilmId])
 
     const setMode = () => {
         dispatch(setModeAC("CURRENT_FILM"))
     }
-
     const location = useLocation()
     return (
         <main className={s.wrapper}>
@@ -73,7 +66,6 @@ export const Main = () => {
                     {data.isLoader ? <Preloader/>
                         : <Routes>
                             <Route path='/' element={<FilmsList
-
                                     filmsData={data.filmsData}
                                     pages={pages}
                                     setCurrentPage={setCurrentPage}
@@ -82,6 +74,7 @@ export const Main = () => {
                             }/>
                             <Route path={'/film/:filmId'} element={<CurrentFilmContainer
                                 film={data.currentFilm}
+                                mode={data.mode}
                                 setMode={setMode}
                             />}
                             />

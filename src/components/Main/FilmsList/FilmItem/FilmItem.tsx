@@ -22,7 +22,6 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
         country,
         filmLength,
         filmId,
-
     }
 ) => {
 

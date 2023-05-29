@@ -1,30 +1,22 @@
 import React, {memo, useEffect, useState} from 'react';
 import {Preloader} from "../../common/Preloader";
-import {CurrentFilmType, setFilmPersonsAC} from "../../../redux/dataReducer";
+import {CurrentFilmDataType, FilmPersonType} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
-import {api} from "../../../api/api";
-import {useDispatch} from "react-redux";
 
 type CurrentFilmPropsType = {
-    film: CurrentFilmType
+    film: CurrentFilmDataType
+    person: FilmPersonType[]
 }
 
 export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
     {
-        film
+        film,
+        person
     }
 ) => {
 
     let [activeTab, setActiveTab] = useState<number>(1)
 
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (film) {
-            api.getFilmPerson(film.kinopoiskId)
-                .then(res => dispatch(setFilmPersonsAC(res.data)))
-        }
-    }, [])
     if (!film) {
         return <Preloader/>
     }
@@ -48,7 +40,6 @@ export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
 
     const mappedCountries = film.countries?.map((c, i) => <span key={i}>{c.country}, &nbsp;</span>)
     const mappedGenres = film.genres?.map((g, i) => <span key={i}>{g.genre}, &nbsp;</span>)
-
     return (
         <div className={s.wrapper}>
             <h3 className={s.title}>
@@ -93,22 +84,27 @@ export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
                     </ul>
                 </div>
             </div>
-            {film.filmPersons&&<div className={s.personsBox}>
+            {person&&<div className={s.personsBox}>
                 <div className={s.btnTabsBox}>
                     <button className={activeTab===1?s.tabBtn+' '+s.active:s.tabBtn} onClick={()=>setActiveTab(1)}>Актеры</button>
                     <button className={activeTab===2?s.tabBtn+' '+s.active:s.tabBtn} onClick={()=>setActiveTab(2)}>Режисёры</button>
                 </div>
                 <div className={s.contentTabsBox}>
                     <div className={activeTab===1?s.tabsContent+' '+s.active:s.tabsContent}>
-                        {film.filmPersons.filter(p=>p.professionKey==='ACTOR').map(p=>{
-                            return <div className={s.tabsItem}>
+                        {person.filter(p=>p.professionKey==='ACTOR').map((p, i)=>{
+                            return <div className={s.tabsItem} key={i}>
                                 <img className={s.itemImg} src={p.posterUrl} alt=""/>
                                 <span className={s.itemName}>{p.nameRu}</span>
                             </div>
                         })}
                     </div>
                     <div className={activeTab===2?s.tabsContent+' '+s.active:s.tabsContent}>
-                        234
+                        {person.filter(p=>p.professionKey==='DIRECTOR').map((p, i)=>{
+                            return <div className={s.tabsItem} key={i}>
+                                <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                <span className={s.itemName}>{p.nameRu}</span>
+                            </div>
+                        })}
                     </div>
                 </div>
             </div>}

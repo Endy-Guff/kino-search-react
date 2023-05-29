@@ -1,10 +1,10 @@
 import axios from "axios";
-import {CurrentFilmType, FilmPersonType, FilmsDataType} from "../redux/dataReducer";
+import {CurrentFilmDataType, CurrentFilmType, FilmPersonType, FilmsDataType} from "../redux/dataReducer";
 
 export const instance = axios.create({
     baseURL: 'https://kinopoiskapiunofficial.tech/api/v2.2',
     headers: {
-        'X-API-KEY': 'c64ab17b-d0cc-4679-90fa-e65b7c4e17b8',
+        'X-API-KEY': '76f85d49-322b-4a5c-a170-0514b7c032c6',
         'Content-Type': 'application/json',
     }
 });
@@ -18,9 +18,9 @@ export const api = {
 
     },
     getFilmById(filmId: string) {
-        return instance.get<CurrentFilmType>(`/films/${filmId}`)
-    },
-    getFilmPerson(filmId: number) {
-        return instance.get<FilmPersonType[]>(`https://kinopoiskapiunofficial.tech/api/v1/staff?filmId=${filmId}`)
+        const film = instance.get<CurrentFilmDataType>(`/films/${filmId}`)
+        const filmPersons = instance.get<FilmPersonType[]>(`https://kinopoiskapiunofficial.tech/api/v1/staff?filmId=${filmId}`)
+        return Promise.all([film, filmPersons])
     }
+
 }

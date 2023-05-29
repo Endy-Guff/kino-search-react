@@ -51,7 +51,8 @@ type setCurrentFilmIdACType = {
 
 type setCurrentFilmACType ={
     type: 'SET_CURRENT_FILM'
-    currentFilm: CurrentFilmType
+    currentFilm: CurrentFilmDataType
+    persons: FilmPersonType[]
 }
 
 type setFilmPersonsACType = {
@@ -80,7 +81,7 @@ export type GenresType = {
     genre: string
 }
 
-type ModeType = 'TOP_250' | 'SEARCH' | 'CURRENT_FILM'
+export type ModeType = 'TOP_250' | 'SEARCH' | 'CURRENT_FILM'
 
 export type FilmsDataType = {
     keyword?: string
@@ -100,7 +101,12 @@ export type StateType = {
     isLoader: boolean
 }
 
-export type CurrentFilmType = null | {
+export type CurrentFilmType = {
+    currentFilmData: CurrentFilmDataType
+    filmPersons: FilmPersonType[]
+}
+
+export type CurrentFilmDataType = null | {
     kinopoiskId: number
     imdbId: string,
     nameRu: string,
@@ -145,7 +151,6 @@ export type CurrentFilmType = null | {
     hasImax: boolean
     has3D: boolean
     lastSync: string
-    filmPersons: FilmPersonType[]
 }
 
 export type FilmPersonType = {
@@ -168,7 +173,10 @@ const initialState: StateType = {
         pagesCount: 0,
         films: []
     },
-    currentFilm: null,
+    currentFilm: {
+        currentFilmData: null,
+        filmPersons: []
+    },
     currentFilmId: '0',
     pageTitle: 'Топ фильмов',
     searchChangeInputValue: '',
@@ -197,9 +205,7 @@ export const dataReducer = (state: StateType = initialState, action: ActionsType
         case SET_CURRENT_FILM_ID:
             return {...state, currentFilmId: action.currentFilmId}
         case SET_CURRENT_FILM:
-            return {...state, currentFilm: action.currentFilm}
-        case SET_FILM_PERSONS:
-            return <StateType>{...state, currentFilm: {...state.currentFilm, filmPersons: action.persons}}
+            return {...state, currentFilm: {...state.currentFilm, currentFilmData: action.currentFilm, filmPersons: action.persons}}
         default:
             return state
     }
@@ -261,16 +267,10 @@ export const setCurrentFilmIdAC = (currentFilmId: string): setCurrentFilmIdACTyp
     }
 }
 
-export const setCurrentFilmAC = (currentFilm: CurrentFilmType): setCurrentFilmACType =>{
+export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: FilmPersonType[]): setCurrentFilmACType =>{
     return{
         type : SET_CURRENT_FILM,
-        currentFilm
-    }
-}
-
-export const setFilmPersonsAC = (persons: FilmPersonType[]): setFilmPersonsACType =>{
-    return {
-        type: SET_FILM_PERSONS,
+        currentFilm,
         persons
     }
 }
