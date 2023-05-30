@@ -1,0 +1,52 @@
+.tabsContent {
+    display: none;
+    background: #0D1C2F;
+    border-radius: 15px;
+    height: 200px;
+    padding: 8px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.tabsContent::-webkit-scrollbar {
+    height: 8px;
+}
+
+.tabsContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tabsContent::-webkit-scrollbar-thumb {
+    background-color: #0054FF;
+    border-radius: 20px;
+    border: solid 3px transparent;
+}
+
+.tabsContent.active {
+    display: flex;
+    gap: 10px;
+}
+
+.tabsItem {
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.itemImgBox{
+    height: 142.5px;
+}
+
+.itemImg {
+    width: 90px;
+    border-radius: 10px;
+}
+
+.itemName{
+    font-family: 'HelveticaNeueCyr';
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FFFFFF;
+}

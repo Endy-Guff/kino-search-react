@@ -1,0 +1,23 @@
+.tabBtn {
+    padding: 0 10px;
+    height: 35px;
+    border: none;
+
+    font-family: 'HelveticaNeueCyr';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 15px;
+    color: #FFFFFF;
+    border-radius: 25px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.tabBtn:hover {
+    background: #0054FF;
+}
+
+.tabBtn.active {
+    background: #0054FF;
+}

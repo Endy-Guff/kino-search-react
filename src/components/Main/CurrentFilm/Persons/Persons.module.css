@@ -1,0 +1,10 @@
+.personsBox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btnTabsBox{
+    display: flex;
+    gap: 5px;
+}
