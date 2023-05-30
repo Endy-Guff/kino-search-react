@@ -24,13 +24,11 @@ export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
     useEffect(()=>{
         if (props.mode!=='CURRENT_FILM'){
             props.setMode()
-            console.log(2)
         }
     }, [])
 
     useEffect(()=>{
         if (params.filmId&&!props.film.currentFilmData){
-            debugger
             dispatch(changeIsLoaderAC(true))
             console.log(props.mode)
             api.getFilmById(params.filmId)

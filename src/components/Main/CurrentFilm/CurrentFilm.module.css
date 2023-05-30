@@ -75,9 +75,13 @@
     border-radius: 15px;
 }
 
+.btnTabsBox{
+    display: flex;
+    gap: 5px;
+}
 
 .tabBtn {
-    width: 100px;
+    padding: 0 10px;
     height: 35px;
     border: none;
 
@@ -89,6 +93,7 @@
     border-radius: 25px;
     background-color: transparent;
     cursor: pointer;
+    transition: .3s;
 }
 
 .tabBtn:hover {
@@ -97,6 +102,12 @@
 
 .tabBtn.active {
     background: #0054FF;
+}
+
+.personsBox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .tabsContent {
@@ -129,10 +140,25 @@
 }
 
 .tabsItem {
-    height: 144px;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.itemImgBox{
+    height: 142.5px;
 }
 
 .itemImg {
     width: 90px;
     border-radius: 10px;
+}
+
+.itemName{
+    font-family: 'HelveticaNeueCyr';
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FFFFFF;
 }

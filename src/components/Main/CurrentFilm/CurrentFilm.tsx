@@ -84,24 +84,58 @@ export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
                     </ul>
                 </div>
             </div>
-            {person&&<div className={s.personsBox}>
+            {person && <div className={s.personsBox}>
                 <div className={s.btnTabsBox}>
-                    <button className={activeTab===1?s.tabBtn+' '+s.active:s.tabBtn} onClick={()=>setActiveTab(1)}>Актеры</button>
-                    <button className={activeTab===2?s.tabBtn+' '+s.active:s.tabBtn} onClick={()=>setActiveTab(2)}>Режисёры</button>
+                    <button className={activeTab === 1 ? s.tabBtn + ' ' + s.active : s.tabBtn}
+                            onClick={() => setActiveTab(1)}>Актеры
+                    </button>
+                    <button className={activeTab === 2 ? s.tabBtn + ' ' + s.active : s.tabBtn}
+                            onClick={() => setActiveTab(2)}>Режисёры
+                    </button>
+                    <button className={activeTab === 3 ? s.tabBtn + ' ' + s.active : s.tabBtn}
+                            onClick={() => setActiveTab(3)}>Сценаристы
+                    </button>
+                    <button className={activeTab === 4 ? s.tabBtn + ' ' + s.active : s.tabBtn}
+                            onClick={() => setActiveTab(4)}>Операторы
+                    </button>
                 </div>
                 <div className={s.contentTabsBox}>
-                    <div className={activeTab===1?s.tabsContent+' '+s.active:s.tabsContent}>
-                        {person.filter(p=>p.professionKey==='ACTOR').map((p, i)=>{
+                    <div className={activeTab === 1 ? s.tabsContent + ' ' + s.active : s.tabsContent}>
+                        {person.filter(p => p.professionKey === 'ACTOR').map((p, i) => {
                             return <div className={s.tabsItem} key={i}>
-                                <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                <div className={s.itemImgBox}>
+                                    <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                </div>
                                 <span className={s.itemName}>{p.nameRu}</span>
                             </div>
                         })}
                     </div>
-                    <div className={activeTab===2?s.tabsContent+' '+s.active:s.tabsContent}>
-                        {person.filter(p=>p.professionKey==='DIRECTOR').map((p, i)=>{
+                    <div className={activeTab === 2 ? s.tabsContent + ' ' + s.active : s.tabsContent}>
+                        {person.filter(p => p.professionKey === 'DIRECTOR').map((p, i) => {
                             return <div className={s.tabsItem} key={i}>
-                                <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                <div className={s.itemImgBox}>
+                                    <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                </div>
+                                <span className={s.itemName}>{p.nameRu}</span>
+                            </div>
+                        })}
+                    </div>
+                    <div className={activeTab === 3 ? s.tabsContent + ' ' + s.active : s.tabsContent}>
+                        {person.filter(p => p.professionKey === 'WRITER').map((p, i) => {
+                            return <div className={s.tabsItem} key={i}>
+                                <div className={s.itemImgBox}>
+                                    <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                </div>
+                                <span className={s.itemName}>{p.nameRu}</span>
+                            </div>
+                        })}
+                    </div>
+                    <div className={activeTab === 4 ? s.tabsContent + ' ' + s.active : s.tabsContent}>
+                        {person.filter(p => p.professionKey === 'OPERATOR').map((p, i) => {
+                            return <div className={s.tabsItem} key={i}>
+                                <div className={s.itemImgBox}>
+                                    <img className={s.itemImg} src={p.posterUrl} alt=""/>
+                                </div>
                                 <span className={s.itemName}>{p.nameRu}</span>
                             </div>
                         })}
