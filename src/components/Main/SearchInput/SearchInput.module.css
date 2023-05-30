@@ -60,3 +60,13 @@
     fill: #ffffff;
 }
 
+.error{
+    display: none;
+    position: absolute;
+    bottom: -25px;
+    color: red;
+}
+
+.error.active{
+    display: block;
+}

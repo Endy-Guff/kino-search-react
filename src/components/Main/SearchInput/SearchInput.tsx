@@ -13,6 +13,7 @@ export const SearchInput = () => {
 
 
     let [inputActive, setInputActive] = useState<boolean>(false)
+    let [isError, setIsError] = useState<boolean>(false)
 
     // useEffect(()=>{
     //     instance
@@ -32,6 +33,7 @@ export const SearchInput = () => {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeSearchInputValueAC(e.currentTarget.value))
+        if (isError) setIsError(false)
     }
 
     const searchOnClickHandler = () => {
@@ -40,7 +42,7 @@ export const SearchInput = () => {
             dispatch(setSearchValueAC(inputValue))
             dispatch(changeSearchInputValueAC(''))
             navigate('/')
-        } else alert('error')
+        } else setIsError(true)
     }
 
     const searchOnKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -50,7 +52,7 @@ export const SearchInput = () => {
                 dispatch(setSearchValueAC(inputValue))
                 dispatch(changeSearchInputValueAC(''))
                 navigate('/')
-            } else alert('error')
+            } else setIsError(true)
         }
     }
 
@@ -63,6 +65,7 @@ export const SearchInput = () => {
         if (inputValue===''){
             setInputActive(false)
         }
+        if (isError) setIsError(false)
     }
 
     return (
@@ -83,6 +86,7 @@ export const SearchInput = () => {
                         fill="#0054FF"/>
                 </svg>
             </button>
+            <span className={isError?s.error+' '+s.active:s.error}>Ошибка! Пустой запрос.</span>
         </div>
     );
 };
