@@ -2,43 +2,39 @@ import React, {useEffect} from 'react';
 import {CurrentFilm} from "./CurrentFilm";
 import {
     changeIsLoaderAC,
-    CurrentFilmType,
+    CurrentFilmType, getCurrentFilmTC,
     ModeType, setCurrentFilmAC,
 } from "../../../redux/dataReducer";
 import {useDispatch} from "react-redux";
 import {useParams} from "react-router-dom";
 import {api} from "../../../api/api";
+import {useAppDispatch} from "../../../redux/store";
 
 type CurrentFilmContainerPropsType = {
     film:CurrentFilmType
-    setMode: () => void
+    setMode: (mode:ModeType) => void
     mode: ModeType
 }
 
 
 export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const params = useParams()
 
     useEffect(()=>{
         if (props.mode!=='CURRENT_FILM'){
-            props.setMode()
+            props.setMode('CURRENT_FILM')
         }
     }, [])
 
     useEffect(()=>{
         if (params.filmId&&!props.film.currentFilmData){
-            dispatch(changeIsLoaderAC(true))
-            console.log(props.mode)
-            api.getFilmById(params.filmId)
-                .then(response => {
-                    dispatch(setCurrentFilmAC(response[0].data, response[1].data))
-                })
-                .finally(()=>dispatch(changeIsLoaderAC(false)))
+            dispatch(getCurrentFilmTC(params.filmId))
         }
         return ()=>{
             dispatch(setCurrentFilmAC(null, []))
+            props.setMode('TOP_250')
         }
     }, [params.filmId])
 

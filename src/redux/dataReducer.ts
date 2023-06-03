@@ -1,3 +1,7 @@
+import {Dispatch} from "redux";
+import {api} from "../api/api";
+import {RootStateType} from "./store";
+
 const SET_FILMS = 'SET_FILMS'
 const CHANGE_SEARCH_VALUE = 'CHANGE_SEARCH_VALUE'
 const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE'
@@ -49,7 +53,7 @@ type setCurrentFilmIdACType = {
     currentFilmId: string
 }
 
-type setCurrentFilmACType ={
+type setCurrentFilmACType = {
     type: 'SET_CURRENT_FILM'
     currentFilm: CurrentFilmDataType
     persons: FilmPersonType[]
@@ -205,7 +209,10 @@ export const dataReducer = (state: StateType = initialState, action: ActionsType
         case SET_CURRENT_FILM_ID:
             return {...state, currentFilmId: action.currentFilmId}
         case SET_CURRENT_FILM:
-            return {...state, currentFilm: {...state.currentFilm, currentFilmData: action.currentFilm, filmPersons: action.persons}}
+            return {
+                ...state,
+                currentFilm: {...state.currentFilm, currentFilmData: action.currentFilm, filmPersons: action.persons}
+            }
         default:
             return state
     }
@@ -260,17 +267,51 @@ export const changeIsLoaderAC = (isLoader: boolean): changeIsLoaderACType => {
     }
 }
 
-export const setCurrentFilmIdAC = (currentFilmId: string): setCurrentFilmIdACType =>{
-    return{
-        type : SET_CURRENT_FILM_ID,
+export const setCurrentFilmIdAC = (currentFilmId: string): setCurrentFilmIdACType => {
+    return {
+        type: SET_CURRENT_FILM_ID,
         currentFilmId
     }
 }
 
-export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: FilmPersonType[]): setCurrentFilmACType =>{
-    return{
-        type : SET_CURRENT_FILM,
+export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: FilmPersonType[]): setCurrentFilmACType => {
+    return {
+        type: SET_CURRENT_FILM,
         currentFilm,
         persons
+    }
+}
+
+export const getFilmTC = (searchValue: string = '') => {
+    return (dispatch: Dispatch, getState: () => RootStateType) => {
+        const state = getState().data
+        dispatch(changeIsLoaderAC(true))
+        if (!searchValue) {
+            api.getTop250(state.currentPage)
+                .then(response => {
+                    dispatch(setFilmsAC(response.data))
+                    dispatch(changeIsLoaderAC(false))
+                })
+            dispatch(setPageTitleAC('Топ фильмов'))
+        }
+        if (searchValue) {
+            api.getSearchFilm(state.currentPage, state.searchValue)
+                .then(response => {
+                    dispatch(setFilmsAC(response.data))
+                    dispatch(changeIsLoaderAC(false))
+                })
+            dispatch(setPageTitleAC(`Результаты поискового запроса: ${state.searchValue}`))
+        }
+    }
+}
+
+export const getCurrentFilmTC = (filmId: string) => {
+    return (dispatch: Dispatch) =>{
+        dispatch(changeIsLoaderAC(true))
+        api.getFilmById(filmId)
+            .then(response => {
+                dispatch(setCurrentFilmAC(response[0].data, response[1].data))
+            })
+            .finally(()=>dispatch(changeIsLoaderAC(false)))
     }
 }

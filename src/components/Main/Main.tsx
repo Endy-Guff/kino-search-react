@@ -2,15 +2,15 @@ import React, {useCallback, useEffect} from 'react';
 import s from './Main.module.css'
 import {SearchInput} from "./SearchInput/SearchInput";
 import {FilmsList} from "./FilmsList/FilmsList";
-import {RootStateType} from "../../redux/store";
+import {RootStateType, useAppDispatch} from "../../redux/store";
 import {
-    changeIsLoaderAC,
+    changeIsLoaderAC, getFilmTC, ModeType,
     setCurrentPageAC,
     setFilmsAC, setModeAC,
     setPageTitleAC,
     StateType
 } from "../../redux/dataReducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {api} from "../../api/api"
 import {Preloader} from "../common/Preloader";
 import {Route, Routes, useLocation, useParams} from 'react-router-dom'
@@ -19,7 +19,7 @@ import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 export const Main = () => {
 
     const data = useSelector<RootStateType, StateType>(state => state.data)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const pages = []
     for (let i = 1; i <= data.filmsData.pagesCount; i++) {
@@ -33,28 +33,16 @@ export const Main = () => {
     useEffect(() => {
         switch (data.mode) {
             case "TOP_250":
-                dispatch(changeIsLoaderAC(true))
-                api.getTop250(data.currentPage)
-                    .then(response => {
-                        dispatch(setFilmsAC(response.data))
-                        dispatch(changeIsLoaderAC(false))
-                    })
-                dispatch(setPageTitleAC('Топ фильмов'))
+                dispatch(getFilmTC())
                 break
             case "SEARCH":
-                dispatch(changeIsLoaderAC(true))
-                api.getSearchFilm(data.currentPage, data.searchValue)
-                    .then(response => {
-                        dispatch(setFilmsAC(response.data))
-                        dispatch(changeIsLoaderAC(false))
-                    })
-                dispatch(setPageTitleAC(`Результаты поискового запроса: ${data.searchValue}`))
+                dispatch(getFilmTC(data.searchValue))
                 break
         }
     }, [data.currentPage, data.searchValue, data.mode, data.currentFilmId])
 
-    const setMode = () => {
-        dispatch(setModeAC("CURRENT_FILM"))
+    const setMode = (mode: ModeType) => {
+        dispatch(setModeAC(mode))
     }
     const location = useLocation()
     return (
