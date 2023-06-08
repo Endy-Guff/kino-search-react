@@ -1,7 +1,8 @@
 import React from 'react';
 import s from './FilmItem.module.css'
-import {CountriesType} from "../../../../redux/dataReducer";
+import {CountriesType, ModeType, setPreviousModeAC} from "../../../../redux/dataReducer";
 import {useNavigate, useParams} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 type FilmItemPropsType = {
     filmName: string
@@ -11,6 +12,7 @@ type FilmItemPropsType = {
     country: CountriesType[]
     filmLength: string
     filmId: number
+    mode: ModeType
 }
 
 export const FilmItem: React.FC<FilmItemPropsType> = (
@@ -22,8 +24,11 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
         country,
         filmLength,
         filmId,
+        mode
     }
 ) => {
+
+    const dispatch = useDispatch()
 
     const navigate = useNavigate()
 
@@ -42,6 +47,7 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
     const cutFilmName = filmName.length>17?filmName.substr(0, 16) + '...':filmName
 
     const onClickHandler = () =>{
+        dispatch(setPreviousModeAC(mode))
         navigate(`/film/${filmId}`)
     }
     return (

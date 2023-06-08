@@ -41,7 +41,6 @@ export const SearchInput = () => {
             dispatch(setModeAC('SEARCH'))
             dispatch(setSearchValueAC(inputValue))
             dispatch(changeSearchInputValueAC(''))
-            dispatch(setCurrentPageAC(1))
             navigate('/')
         } else setIsError(true)
     }
@@ -52,7 +51,6 @@ export const SearchInput = () => {
                 dispatch(setModeAC('SEARCH'))
                 dispatch(setSearchValueAC(inputValue))
                 dispatch(changeSearchInputValueAC(''))
-                dispatch(setCurrentPageAC(1))
                 navigate('/')
             } else setIsError(true)
         }

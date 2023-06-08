@@ -19,7 +19,6 @@ import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 
 export const Main = () => {
     const wrapperRef = useRef<HTMLInputElement>(null)
-    console.log(wrapperRef.current!.offsetTop)
 
     const data = useSelector<RootStateType, StateType>(state => state.data)
     const dispatch = useAppDispatch()
@@ -36,7 +35,13 @@ export const Main = () => {
     useEffect(() => {
         switch (data.mode) {
             case "TOP_250":
-                dispatch(getFilmTC())
+                dispatch(getFilmTC('', "TOP_250_BEST_FILMS"))
+                break
+            case "TOP_100_POPULAR_FILMS":
+                dispatch(getFilmTC('', "TOP_100_POPULAR_FILMS"))
+                break
+            case "TOP_AWAIT_FILMS":
+                dispatch(getFilmTC('', "TOP_AWAIT_FILMS"))
                 break
             case "SEARCH":
                 dispatch(getFilmTC(data.searchValue))
@@ -61,13 +66,15 @@ export const Main = () => {
                                     pages={pages}
                                     setCurrentPage={setCurrentPage}
                                     currentPage={data.currentPage}
-                                    offsetTop={wrapperRef.current!.offsetTop}
+                                    offsetTop={wrapperRef.current?.offsetTop}
+                                    mode={data.mode}
                                 />
                             }/>
                             <Route path={'/film/:filmId'} element={<CurrentFilmContainer
                                 film={data.currentFilm}
                                 mode={data.mode}
                                 setMode={setMode}
+                                previousMode={data.previousMode}
                             />}
                             />
                         </Routes>

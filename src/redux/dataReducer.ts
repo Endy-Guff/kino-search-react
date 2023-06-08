@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {api} from "../api/api";
 import {RootStateType} from "./store";
+import {Mode} from "fs";
 
 const SET_FILMS = 'SET_FILMS'
 const CHANGE_SEARCH_VALUE = 'CHANGE_SEARCH_VALUE'
@@ -11,7 +12,7 @@ const SET_MODE = 'SET_MODE'
 const CHANGE_IS_LOADER = 'CHANGE_IS_LOADER'
 const SET_CURRENT_FILM = 'SET_CURRENT_FILM'
 const SET_CURRENT_FILM_ID = 'SET_CURRENT_FILM_ID'
-const SET_FILM_PERSONS = 'SET_FILM_PERSONS'
+const SET_PREVIOUS_MODE = 'SET_PREVIOUS_MODE'
 
 type SetFilmsACType = {
     type: 'SET_FILMS'
@@ -48,9 +49,9 @@ type changeIsLoaderACType = {
     isLoader: boolean
 }
 
-type setCurrentFilmIdACType = {
-    type: 'SET_CURRENT_FILM_ID'
-    currentFilmId: string
+type setPreviousModeACType = {
+    type: 'SET_PREVIOUS_MODE'
+    mode: ModeType
 }
 
 type setCurrentFilmACType = {
@@ -85,7 +86,8 @@ export type GenresType = {
     genre: string
 }
 
-export type ModeType = 'TOP_250' | 'SEARCH' | 'CURRENT_FILM'
+export type ModeType = 'TOP_250' | 'SEARCH' | 'CURRENT_FILM' | 'TOP_100_POPULAR_FILMS' | 'TOP_AWAIT_FILMS'
+export type TopModeType = 'TOP_250_BEST_FILMS' | 'TOP_100_POPULAR_FILMS' | 'TOP_AWAIT_FILMS'
 
 export type FilmsDataType = {
     keyword?: string
@@ -102,6 +104,7 @@ export type StateType = {
     searchValue: string
     currentPage: number
     mode: ModeType
+    previousMode: ModeType
     isLoader: boolean
 }
 
@@ -168,7 +171,7 @@ export type FilmPersonType = {
 }
 
 type ActionsType = SetFilmsACType | changeSearchInputValueACType | setCurrentPageACType | setPageTitleACType
-    | setSearchValueACType | setModeACType | changeIsLoaderACType | setCurrentFilmIdACType | setCurrentFilmACType
+    | setSearchValueACType | setModeACType | changeIsLoaderACType | setPreviousModeACType | setCurrentFilmACType
     | setFilmPersonsACType
 
 const initialState: StateType = {
@@ -186,6 +189,7 @@ const initialState: StateType = {
     searchChangeInputValue: '',
     searchValue: '',
     mode: 'TOP_250',
+    previousMode: 'TOP_250',
     isLoader: false,
     currentPage: 1
 }
@@ -203,11 +207,11 @@ export const dataReducer = (state: StateType = initialState, action: ActionsType
         case SET_SEARCH_VALUE:
             return {...state, searchValue: action.value}
         case SET_MODE:
-            return {...state, mode: action.mode}
+            return {...state, mode: action.mode, currentPage: 1}
         case CHANGE_IS_LOADER:
             return {...state, isLoader: action.isLoader}
-        case SET_CURRENT_FILM_ID:
-            return {...state, currentFilmId: action.currentFilmId}
+        case SET_PREVIOUS_MODE:
+            return {...state, previousMode: action.mode}
         case SET_CURRENT_FILM:
             return {
                 ...state,
@@ -267,10 +271,10 @@ export const changeIsLoaderAC = (isLoader: boolean): changeIsLoaderACType => {
     }
 }
 
-export const setCurrentFilmIdAC = (currentFilmId: string): setCurrentFilmIdACType => {
+export const setPreviousModeAC = (mode: ModeType): setPreviousModeACType => {
     return {
-        type: SET_CURRENT_FILM_ID,
-        currentFilmId
+        type: SET_PREVIOUS_MODE,
+        mode
     }
 }
 
@@ -282,17 +286,25 @@ export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: Film
     }
 }
 
-export const getFilmTC = (searchValue: string = '') => {
+export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250_BEST_FILMS') => {
     return (dispatch: Dispatch, getState: () => RootStateType) => {
         const state = getState().data
         dispatch(changeIsLoaderAC(true))
         if (!searchValue) {
-            api.getTop250(state.currentPage)
+            api.getFilm(state.currentPage, mode)
                 .then(response => {
                     dispatch(setFilmsAC(response.data))
                     dispatch(changeIsLoaderAC(false))
                 })
-            dispatch(setPageTitleAC('Топ фильмов'))
+            if (state.mode==='TOP_250'){
+                dispatch(setPageTitleAC('Топ 250 лучших фильмов'))
+            }
+            if (state.mode==='TOP_100_POPULAR_FILMS'){
+                dispatch(setPageTitleAC('Топ 100 популярных фильмов'))
+            }
+            if (state.mode==='TOP_AWAIT_FILMS'){
+                dispatch(setPageTitleAC('Топ ожидающих фильмов'))
+            }
         }
         if (searchValue) {
             api.getSearchFilm(state.currentPage, state.searchValue)

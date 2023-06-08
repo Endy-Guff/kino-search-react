@@ -7,6 +7,7 @@ import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {BrowserRouter} from "react-router-dom";
 import {Preloader} from "./components/common/Preloader";
+import {Menu} from "./components/Menu/Menu";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
             <Provider store={store}>
                 <div className="App">
                     <Preloader />
+                    <Menu />
                     <Header/>
                     <Main/>
                 </div>
