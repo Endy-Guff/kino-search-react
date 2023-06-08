@@ -3,7 +3,7 @@ import s from './SearchInput.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../../redux/store";
 import {
-    changeSearchInputValueAC,
+    changeSearchInputValueAC, setCurrentPageAC,
     setModeAC,
     setSearchValueAC
 } from "../../../redux/dataReducer";
@@ -41,6 +41,7 @@ export const SearchInput = () => {
             dispatch(setModeAC('SEARCH'))
             dispatch(setSearchValueAC(inputValue))
             dispatch(changeSearchInputValueAC(''))
+            dispatch(setCurrentPageAC(1))
             navigate('/')
         } else setIsError(true)
     }
@@ -51,6 +52,7 @@ export const SearchInput = () => {
                 dispatch(setModeAC('SEARCH'))
                 dispatch(setSearchValueAC(inputValue))
                 dispatch(changeSearchInputValueAC(''))
+                dispatch(setCurrentPageAC(1))
                 navigate('/')
             } else setIsError(true)
         }

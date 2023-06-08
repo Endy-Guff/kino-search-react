@@ -30,7 +30,7 @@ body{
   font-family: Gilroy, sans-serif;
   font-size: 15px;
   background-color: #00152C;
-
+  position: relative;
 }
 
 a{

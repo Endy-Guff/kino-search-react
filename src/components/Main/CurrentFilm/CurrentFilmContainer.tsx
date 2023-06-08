@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CurrentFilm} from "./CurrentFilm";
 import {
     changeIsLoaderAC,
@@ -18,11 +18,14 @@ type CurrentFilmContainerPropsType = {
 
 
 export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
+    let [currentMode, setCurrentMode] = useState<ModeType>('CURRENT_FILM')
+
     const dispatch = useAppDispatch()
 
     const params = useParams()
 
     useEffect(()=>{
+        setCurrentMode(props.mode)
         if (props.mode!=='CURRENT_FILM'){
             props.setMode('CURRENT_FILM')
         }
@@ -34,7 +37,7 @@ export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
         }
         return ()=>{
             dispatch(setCurrentFilmAC(null, []))
-            props.setMode('TOP_250')
+            props.setMode(currentMode)
         }
     }, [params.filmId])
 

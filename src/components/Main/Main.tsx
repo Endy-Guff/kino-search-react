@@ -51,8 +51,8 @@ export const Main = () => {
                 <SearchInput/>
                 {location.pathname==='/'?<h2 className={s.title}>{data.pageTitle}</h2>:null}
                 <div className={s.inner}>
-                    {data.isLoader ? <Preloader/>
-                        : <Routes>
+
+                         <Routes>
                             <Route path='/' element={<FilmsList
                                     filmsData={data.filmsData}
                                     pages={pages}
@@ -68,7 +68,7 @@ export const Main = () => {
                             />
                         </Routes>
 
-                    }
+
 
 
                     {/*{data.isLoader ? <Preloader />*/}
