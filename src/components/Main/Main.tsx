@@ -15,10 +15,13 @@ import {api} from "../../api/api"
 import {Preloader} from "../common/Preloader";
 import {Route, Routes, useLocation, useParams} from 'react-router-dom'
 import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
+import {Menu} from "../Menu/Menu";
 
 
 export const Main = () => {
+
     const wrapperRef = useRef<HTMLInputElement>(null)
+
 
     const data = useSelector<RootStateType, StateType>(state => state.data)
     const dispatch = useAppDispatch()
@@ -58,6 +61,8 @@ export const Main = () => {
     console.log(location)
     return (
         <main className={s.wrapper} ref={wrapperRef}>
+            <Menu />
+
             <div className='container'>
                 <SearchInput/>
                 {location.pathname==='/TOP_250'

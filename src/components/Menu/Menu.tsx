@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import s from './Menu.module.css'
-import {ModeType, setModeAC} from "../../redux/dataReducer";
+import {ModeType, setCurrentPageAC, setModeAC} from "../../redux/dataReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "../../redux/store";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
@@ -20,9 +20,8 @@ export const Menu = () => {
         setMenuIsActive(true)
     }
 
-    const onClickHandler =(mode: ModeType) =>{
-        dispatch(setModeAC(mode))
-        navigate('/')
+    const onClickHandler =() =>{
+        dispatch(setCurrentPageAC(1))
     }
 
     const menuClass = menuIsActive?s.wrapper+' '+s.active:s.wrapper
@@ -37,11 +36,11 @@ export const Menu = () => {
             {/*      onClick={()=>onClickHandler('TOP_AWAIT_FILMS')}>Топ ожидающих фильмов</span>*/}
 
             <NavLink className={location==='/TOP_250'?s.mode+' '+s.active:s.mode}
-                  to={'/TOP_250'}>Топ 250 лучших фильмов</NavLink>
+                  to={'/TOP_250'} onClick={onClickHandler}>Топ 250 лучших фильмов</NavLink>
             <NavLink className={location==='/TOP_100_POPULAR_FILMS'?s.mode+' '+s.active:s.mode}
-                  to={'/TOP_100_POPULAR_FILMS'}>Топ 100 популярных фильмов</NavLink>
+                  to={'/TOP_100_POPULAR_FILMS'} onClick={onClickHandler}>Топ 100 популярных фильмов</NavLink>
             <NavLink className={location==='/TOP_AWAIT_FILMS'?s.mode+' '+s.active:s.mode}
-                  to={'/TOP_AWAIT_FILMS'}>Топ ожидающих фильмов</NavLink>
+                  to={'/TOP_AWAIT_FILMS'} onClick={onClickHandler}>Топ ожидающих фильмов</NavLink>
         </div>
     );
 };

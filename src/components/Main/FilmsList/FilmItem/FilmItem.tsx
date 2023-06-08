@@ -44,7 +44,7 @@ export const FilmItem: React.FC<FilmItemPropsType> = (
         }
     }
 
-    const cutFilmName = filmName.length>17?filmName.substr(0, 16) + '...':filmName
+    const cutFilmName = filmName?filmName.length>17?filmName.substr(0, 16) + '...':filmName:'Название неизвестно'
 
     const onClickHandler = () =>{
         dispatch(setPreviousModeAC(mode))
