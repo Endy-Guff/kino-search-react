@@ -258,6 +258,7 @@ export const setSearchValueAC = (value: string): setSearchValueACType => {
 }
 
 export const setModeAC = (mode: ModeType): setModeACType => {
+    debugger
     return {
         type: SET_MODE,
         mode
@@ -296,13 +297,13 @@ export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250
                     dispatch(setFilmsAC(response.data))
                     dispatch(changeIsLoaderAC(false))
                 })
-            if (state.mode==='TOP_250'){
+            if (mode==='TOP_250_BEST_FILMS'){
                 dispatch(setPageTitleAC('Топ 250 лучших фильмов'))
             }
-            if (state.mode==='TOP_100_POPULAR_FILMS'){
+            if (mode==='TOP_100_POPULAR_FILMS'){
                 dispatch(setPageTitleAC('Топ 100 популярных фильмов'))
             }
-            if (state.mode==='TOP_AWAIT_FILMS'){
+            if (mode==='TOP_AWAIT_FILMS'){
                 dispatch(setPageTitleAC('Топ ожидающих фильмов'))
             }
         }

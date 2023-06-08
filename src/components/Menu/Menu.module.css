@@ -1,7 +1,7 @@
 .wrapper{
     position: fixed;
-    width: 220px;
-    left: -210px;
+    width: 190px;
+    left: -180px;
     top: 200px;
     background: #0054FF;
     font-family: 'HelveticaNeueCyr';
@@ -15,7 +15,7 @@
     padding: 10px;
     border-radius: 0 15px 15px 0;
     cursor: pointer;
-    transition: left .5s, background .3s;
+    transition: left .5s, background .5s;
 }
 
 .wrapper.active{
@@ -27,6 +27,11 @@
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
+    transition: .3s;
+}
+
+.mode:hover {
+    background: rgba(0,84,255,.3);
 }
 
 .mode.active{

@@ -36,7 +36,6 @@ export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
         }
         return ()=>{
             dispatch(setCurrentFilmAC(null, []))
-            props.setMode(props.previousMode)
         }
     }, [params.filmId])
 
