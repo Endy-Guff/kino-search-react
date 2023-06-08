@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import s from './FilmsList.module.css'
 import {FilmsDataType} from "../../../redux/dataReducer";
 import {FilmItem} from "./FilmItem/FilmItem";
@@ -10,6 +10,7 @@ type FilmsListPropsType = {
     pages: number[]
     setCurrentPage: (pageNumber: number) => void
     currentPage: number
+    offsetTop: number
 }
 
 export const FilmsList: React.FC<FilmsListPropsType> = memo((
@@ -18,8 +19,17 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
         pages,
         setCurrentPage,
         currentPage,
+        offsetTop
     }
 ) => {
+
+
+    useEffect(() =>{
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        })
+    }, [currentPage])
 
     return (
         <div className={s.wrapper}>

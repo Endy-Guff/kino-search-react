@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import s from './Main.module.css'
 import {SearchInput} from "./SearchInput/SearchInput";
 import {FilmsList} from "./FilmsList/FilmsList";
@@ -16,7 +16,10 @@ import {Preloader} from "../common/Preloader";
 import {Route, Routes, useLocation, useParams} from 'react-router-dom'
 import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 
+
 export const Main = () => {
+    const wrapperRef = useRef<HTMLInputElement>(null)
+    console.log(wrapperRef.current!.offsetTop)
 
     const data = useSelector<RootStateType, StateType>(state => state.data)
     const dispatch = useAppDispatch()
@@ -46,7 +49,7 @@ export const Main = () => {
     }
     const location = useLocation()
     return (
-        <main className={s.wrapper}>
+        <main className={s.wrapper} ref={wrapperRef}>
             <div className='container'>
                 <SearchInput/>
                 {location.pathname==='/'?<h2 className={s.title}>{data.pageTitle}</h2>:null}
@@ -58,6 +61,7 @@ export const Main = () => {
                                     pages={pages}
                                     setCurrentPage={setCurrentPage}
                                     currentPage={data.currentPage}
+                                    offsetTop={wrapperRef.current!.offsetTop}
                                 />
                             }/>
                             <Route path={'/film/:filmId'} element={<CurrentFilmContainer
