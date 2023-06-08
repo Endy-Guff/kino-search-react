@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {CurrentFilm} from "./CurrentFilm";
 import {
     changeIsLoaderAC,
@@ -6,7 +6,7 @@ import {
     ModeType, setCurrentFilmAC,
 } from "../../../redux/dataReducer";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {api} from "../../../api/api";
 import {useAppDispatch} from "../../../redux/store";
 import {Mode} from "fs";
@@ -22,8 +22,16 @@ type CurrentFilmContainerPropsType = {
 export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
 
     const dispatch = useAppDispatch()
-
     const params = useParams()
+    const location = useLocation()
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 800,
+            behavior: 'smooth'
+        })
+        debugger
+    }, [location.pathname])
 
     useEffect(()=>{
         if (props.mode!=='CURRENT_FILM'){

@@ -3,7 +3,7 @@ import s from './FilmsList.module.css'
 import {FilmsDataType, ModeType} from "../../../redux/dataReducer";
 import {FilmItem} from "./FilmItem/FilmItem";
 import {log} from "util";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 type FilmsListPropsType = {
     filmsData: FilmsDataType
@@ -25,14 +25,15 @@ export const FilmsList: React.FC<FilmsListPropsType> = memo((
     }
 ) => {
 
+    const location = useLocation()
+
 
     useEffect(() => {
         window.scrollTo({
             top: offsetTop,
             behavior: 'smooth'
         })
-
-    }, [currentPage])
+    }, [currentPage, location.pathname])
 
     return (
         <div className={s.wrapper}>

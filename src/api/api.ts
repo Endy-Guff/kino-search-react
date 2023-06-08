@@ -11,7 +11,7 @@ import {
 export const instance = axios.create({
     baseURL: 'https://kinopoiskapiunofficial.tech/api/v2.2',
     headers: {
-        'X-API-KEY': '76f85d49-322b-4a5c-a170-0514b7c032c6',
+        'X-API-KEY': '9b2fb13e-78fd-4ff7-8203-8e7e63862456',
         'Content-Type': 'application/json',
     }
 });

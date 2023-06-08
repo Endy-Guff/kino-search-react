@@ -3,6 +3,7 @@ import {Preloader} from "../../common/Preloader";
 import {CurrentFilmDataType, FilmPersonType} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
 import {Persons} from "./Persons/Persons";
+import {useLocation} from "react-router-dom";
 
 type CurrentFilmPropsType = {
     film: CurrentFilmDataType
@@ -12,7 +13,7 @@ type CurrentFilmPropsType = {
 export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
     {
         film,
-        person
+        person,
     }
 ) => {
 
