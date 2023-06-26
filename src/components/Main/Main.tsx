@@ -12,8 +12,8 @@ import {
 } from "../../redux/dataReducer";
 import {useSelector} from "react-redux";
 import {api} from "../../api/api"
-import {Preloader} from "../common/Preloader";
-import {Route, Routes, useLocation, useParams} from 'react-router-dom'
+import {Preloader} from "../common/Preloader/Preloader";
+import {Navigate, Route, Routes, useLocation, useParams} from 'react-router-dom'
 import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 import {Menu} from "../Menu/Menu";
 
@@ -40,7 +40,6 @@ export const Main = () => {
     useEffect(() => {
         switch (location.pathname) {
             case "/TOP_250":
-                debugger
                 dispatch(getFilmTC('', "TOP_250_BEST_FILMS"))
                 break
             case "/TOP_100_POPULAR_FILMS":
@@ -89,6 +88,7 @@ export const Main = () => {
                                 previousMode={data.previousMode}
                             />}
                             />
+                             <Route path={'/'} element={<Navigate to={'/TOP_250'} />}/>
                         </Routes>
 
 

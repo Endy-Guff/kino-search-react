@@ -14,6 +14,8 @@ const SET_CURRENT_FILM = 'SET_CURRENT_FILM'
 const SET_CURRENT_FILM_ID = 'SET_CURRENT_FILM_ID'
 const SET_PREVIOUS_MODE = 'SET_PREVIOUS_MODE'
 
+type SetErrorACType = ReturnType<typeof setErrorAC>
+
 type SetFilmsACType = {
     type: 'SET_FILMS'
     state: FilmsDataType
@@ -105,7 +107,8 @@ export type StateType = {
     currentPage: number
     mode: ModeType
     previousMode: ModeType
-    isLoader: boolean
+    isLoader: boolean,
+    error: string
 }
 
 export type CurrentFilmType = {
@@ -172,7 +175,7 @@ export type FilmPersonType = {
 
 type ActionsType = SetFilmsACType | changeSearchInputValueACType | setCurrentPageACType | setPageTitleACType
     | setSearchValueACType | setModeACType | changeIsLoaderACType | setPreviousModeACType | setCurrentFilmACType
-    | setFilmPersonsACType
+    | setFilmPersonsACType | SetErrorACType
 
 const initialState: StateType = {
     filmsData: {
@@ -191,7 +194,8 @@ const initialState: StateType = {
     mode: 'TOP_250',
     previousMode: 'TOP_250',
     isLoader: false,
-    currentPage: 1
+    currentPage: 1,
+    error: 'asdasdasd'
 }
 
 export const dataReducer = (state: StateType = initialState, action: ActionsType): StateType => {
@@ -217,6 +221,7 @@ export const dataReducer = (state: StateType = initialState, action: ActionsType
                 ...state,
                 currentFilm: {...state.currentFilm, currentFilmData: action.currentFilm, filmPersons: action.persons}
             }
+        case 'SET_ERROR': return {...state, error: action.error}
         default:
             return state
     }
@@ -258,7 +263,6 @@ export const setSearchValueAC = (value: string): setSearchValueACType => {
 }
 
 export const setModeAC = (mode: ModeType): setModeACType => {
-    debugger
     return {
         type: SET_MODE,
         mode
@@ -286,6 +290,7 @@ export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: Film
         persons
     }
 }
+export const setErrorAC = (error: string) =>({type: 'SET_ERROR', error} as const)
 
 export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250_BEST_FILMS') => {
     return (dispatch: Dispatch, getState: () => RootStateType) => {
@@ -296,6 +301,10 @@ export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250
                 .then(response => {
                     dispatch(setFilmsAC(response.data))
                     dispatch(changeIsLoaderAC(false))
+                })
+                .catch(()=>{
+                    dispatch(changeIsLoaderAC(false))
+                    dispatch(setErrorAC('Sorry, something wrong'))
                 })
             if (mode==='TOP_250_BEST_FILMS'){
                 dispatch(setPageTitleAC('Топ 250 лучших фильмов'))
@@ -313,6 +322,10 @@ export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250
                     dispatch(setFilmsAC(response.data))
                     dispatch(changeIsLoaderAC(false))
                 })
+                .catch(()=>{
+                    dispatch(changeIsLoaderAC(false))
+                    dispatch(setErrorAC('Sorry, something wrong'))
+                })
             dispatch(setPageTitleAC(`Результаты поискового запроса: ${state.searchValue}`))
         }
     }
@@ -324,6 +337,10 @@ export const getCurrentFilmTC = (filmId: string) => {
         api.getFilmById(filmId)
             .then(response => {
                 dispatch(setCurrentFilmAC(response[0].data, response[1].data))
+            })
+            .catch(()=>{
+                dispatch(changeIsLoaderAC(false))
+                dispatch(setErrorAC('Sorry, something wrong'))
             })
             .finally(()=>dispatch(changeIsLoaderAC(false)))
     }

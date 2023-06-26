@@ -30,7 +30,6 @@ export const CurrentFilmContainer = (props: CurrentFilmContainerPropsType) => {
             top: 800,
             behavior: 'smooth'
         })
-        debugger
     }, [location.pathname])
 
     useEffect(()=>{

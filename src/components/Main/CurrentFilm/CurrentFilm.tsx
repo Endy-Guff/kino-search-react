@@ -1,5 +1,5 @@
 import React, {memo, useEffect, useState} from 'react';
-import {Preloader} from "../../common/Preloader";
+import {Preloader} from "../../common/Preloader/Preloader";
 import {CurrentFilmDataType, FilmPersonType} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
 import {Persons} from "./Persons/Persons";

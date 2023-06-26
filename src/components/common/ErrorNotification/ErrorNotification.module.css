@@ -1,0 +1,33 @@
+.wrapper{
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    z-index: 999;
+}
+
+.error{
+    background: rgba(0,84,255,.6);
+    border-radius: 5px;
+    padding: 10px;
+    color: #fff;
+    opacity: 0;
+}
+
+.wrapper.active .error{
+    animation: fadeIn 1s ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

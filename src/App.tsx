@@ -1,13 +1,12 @@
 import React, {useRef} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Header} from "./components/Header/Header";
 import {Main} from "./components/Main/Main";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {BrowserRouter} from "react-router-dom";
-import {Preloader} from "./components/common/Preloader";
-import {Menu} from "./components/Menu/Menu";
+import {Preloader} from "./components/common/Preloader/Preloader";
+import ErrorNotification from "./components/common/ErrorNotification/ErrorNotification";
 
 
 function App() {
@@ -15,6 +14,7 @@ function App() {
         <BrowserRouter>
             <Provider store={store}>
                 <div className="App">
+                    <ErrorNotification />
                     <Preloader />
                     <Header/>
                     <Main/>

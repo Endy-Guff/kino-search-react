@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import s from './Preloader.module.css'
-import loader from "../../assets/img/loader.svg";
+import loader from "../../../assets/img/loader.svg";
 import {useSelector} from "react-redux";
-import {RootStateType} from "../../redux/store";
+import {RootStateType} from "../../../redux/store";
 
 export const Preloader = () => {
 
