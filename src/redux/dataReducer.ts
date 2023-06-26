@@ -195,7 +195,7 @@ const initialState: StateType = {
     previousMode: 'TOP_250',
     isLoader: false,
     currentPage: 1,
-    error: 'asdasdasd'
+    error: ''
 }
 
 export const dataReducer = (state: StateType = initialState, action: ActionsType): StateType => {

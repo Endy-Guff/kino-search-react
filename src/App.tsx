@@ -4,14 +4,14 @@ import {Header} from "./components/Header/Header";
 import {Main} from "./components/Main/Main";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 import {Preloader} from "./components/common/Preloader/Preloader";
 import ErrorNotification from "./components/common/ErrorNotification/ErrorNotification";
 
 
 function App() {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Provider store={store}>
                 <div className="App">
                     <ErrorNotification />
@@ -20,7 +20,7 @@ function App() {
                     <Main/>
                 </div>
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
