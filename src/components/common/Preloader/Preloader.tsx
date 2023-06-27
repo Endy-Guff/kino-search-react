@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import s from './Preloader.module.css'
-import loader from "../../../assets/img/loader.svg";
 import {useSelector} from "react-redux";
 import {RootStateType} from "../../../redux/store";
 
@@ -22,9 +21,6 @@ export const Preloader = () => {
 
     const lineClass = isLoaderStatus?s.line+' '+s.active:s.line
     return (
-        // <img src={loader} alt=""/>
-
-
 
         <div className={s.wrapper}>
             <div className={lineClass}><span className={s.loader}></span></div>

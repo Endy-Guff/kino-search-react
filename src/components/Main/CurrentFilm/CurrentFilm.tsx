@@ -1,9 +1,8 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {Preloader} from "../../common/Preloader/Preloader";
 import {CurrentFilmDataType, FilmPersonType} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
 import {Persons} from "./Persons/Persons";
-import {useLocation} from "react-router-dom";
 
 type CurrentFilmPropsType = {
     film: CurrentFilmDataType

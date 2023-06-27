@@ -1,9 +1,8 @@
-import React, {memo, useEffect, useRef, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import s from './FilmsList.module.css'
 import {FilmsDataType, ModeType} from "../../../redux/dataReducer";
 import {FilmItem} from "./FilmItem/FilmItem";
-import {log} from "util";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 type FilmsListPropsType = {
     filmsData: FilmsDataType

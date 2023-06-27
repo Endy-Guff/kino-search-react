@@ -3,16 +3,8 @@ import s from './Main.module.css'
 import {SearchInput} from "./SearchInput/SearchInput";
 import {FilmsList} from "./FilmsList/FilmsList";
 import {RootStateType, useAppDispatch} from "../../redux/store";
-import {
-    changeIsLoaderAC, getFilmTC, ModeType,
-    setCurrentPageAC,
-    setFilmsAC, setModeAC,
-    setPageTitleAC,
-    StateType
-} from "../../redux/dataReducer";
+import {getFilmTC, ModeType, setCurrentPageAC, setModeAC, StateType} from "../../redux/dataReducer";
 import {useSelector} from "react-redux";
-import {api} from "../../api/api"
-import {Preloader} from "../common/Preloader/Preloader";
 import {Navigate, Route, Routes, useLocation, useParams} from 'react-router-dom'
 import {CurrentFilmContainer} from "./CurrentFilm/CurrentFilmContainer";
 import {Menu} from "../Menu/Menu";
@@ -57,7 +49,6 @@ export const Main = () => {
     const setMode = (mode: ModeType) => {
         dispatch(setModeAC(mode))
     }
-    console.log(location)
     return (
         <main className={s.wrapper} ref={wrapperRef}>
             <Menu />
@@ -91,18 +82,6 @@ export const Main = () => {
                              <Route path={'/'} element={<Navigate to={'/TOP_250'} />}/>
                         </Routes>
 
-
-
-
-                    {/*{data.isLoader ? <Preloader />*/}
-                    {/*    :data.currentFilm?<CurrentFilm film={data.currentFilm}/>:<FilmsList*/}
-
-                    {/*        filmsData={data.filmsData}*/}
-                    {/*        pages={pages}*/}
-                    {/*        setCurrentPage={setCurrentPage}*/}
-                    {/*        currentPage={data.currentPage}*/}
-                    {/*        setMode={setMode}*/}
-                    {/*    />}*/}
                 </div>
             </div>
         </main>

@@ -1,72 +1,19 @@
 import {Dispatch} from "redux";
 import {api} from "../api/api";
 import {RootStateType} from "./store";
-import {Mode} from "fs";
-
-const SET_FILMS = 'SET_FILMS'
-const CHANGE_SEARCH_VALUE = 'CHANGE_SEARCH_VALUE'
-const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE'
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
-const SET_PAGE_TITLE = 'SET_PAGE_TITLE'
-const SET_MODE = 'SET_MODE'
-const CHANGE_IS_LOADER = 'CHANGE_IS_LOADER'
-const SET_CURRENT_FILM = 'SET_CURRENT_FILM'
-const SET_CURRENT_FILM_ID = 'SET_CURRENT_FILM_ID'
-const SET_PREVIOUS_MODE = 'SET_PREVIOUS_MODE'
 
 type SetErrorACType = ReturnType<typeof setErrorAC>
-
-type SetFilmsACType = {
-    type: 'SET_FILMS'
-    state: FilmsDataType
-}
-
-type changeSearchInputValueACType = {
-    type: 'CHANGE_SEARCH_VALUE'
-    value: string
-}
-
-type setCurrentPageACType = {
-    type: 'SET_CURRENT_PAGE'
-    pageNumber: number
-}
-
-type setPageTitleACType = {
-    type: 'SET_PAGE_TITLE',
-    title: string
-}
-
-type setSearchValueACType = {
-    type: 'SET_SEARCH_VALUE'
-    value: string
-}
-
-type setModeACType = {
-    type: 'SET_MODE'
-    mode: ModeType
-}
-
-type changeIsLoaderACType = {
-    type: 'CHANGE_IS_LOADER'
-    isLoader: boolean
-}
-
-type setPreviousModeACType = {
-    type: 'SET_PREVIOUS_MODE'
-    mode: ModeType
-}
-
-type setCurrentFilmACType = {
-    type: 'SET_CURRENT_FILM'
-    currentFilm: CurrentFilmDataType
-    persons: FilmPersonType[]
-}
-
-type setFilmPersonsACType = {
-    type: 'SET_FILM_PERSONS'
-    persons: FilmPersonType[]
-}
-
+type SetFilmsACType = ReturnType<typeof setFilmsAC>
+type changeSearchInputValueACType = ReturnType<typeof changeSearchInputValueAC>
+type setCurrentPageACType = ReturnType<typeof setCurrentPageAC>
+type setPageTitleACType = ReturnType<typeof setPageTitleAC>
+type setSearchValueACType = ReturnType<typeof setSearchValueAC>
+type setModeACType = ReturnType<typeof setModeAC>
+type changeIsLoaderACType = ReturnType<typeof changeIsLoaderAC>
+type setPreviousModeACType = ReturnType<typeof setPreviousModeAC>
+type setCurrentFilmACType = ReturnType<typeof setCurrentFilmAC>
+export type ModeType = 'TOP_250' | 'SEARCH' | 'CURRENT_FILM' | 'TOP_100_POPULAR_FILMS' | 'TOP_AWAIT_FILMS'
+export type TopModeType = 'TOP_250_BEST_FILMS' | 'TOP_100_POPULAR_FILMS' | 'TOP_AWAIT_FILMS'
 export type FilmsType = {
     filmId: number
     nameRu: string
@@ -79,24 +26,17 @@ export type FilmsType = {
     posterUrlPreview: string
     description?: string
 }
-
 export type CountriesType = {
     country: string
 }
-
 export type GenresType = {
     genre: string
 }
-
-export type ModeType = 'TOP_250' | 'SEARCH' | 'CURRENT_FILM' | 'TOP_100_POPULAR_FILMS' | 'TOP_AWAIT_FILMS'
-export type TopModeType = 'TOP_250_BEST_FILMS' | 'TOP_100_POPULAR_FILMS' | 'TOP_AWAIT_FILMS'
-
 export type FilmsDataType = {
     keyword?: string
     pagesCount: number
     films: FilmsType[]
 }
-
 export type StateType = {
     currentFilm: CurrentFilmType
     currentFilmId: string
@@ -110,12 +50,10 @@ export type StateType = {
     isLoader: boolean,
     error: string
 }
-
 export type CurrentFilmType = {
     currentFilmData: CurrentFilmDataType
     filmPersons: FilmPersonType[]
 }
-
 export type CurrentFilmDataType = null | {
     kinopoiskId: number
     imdbId: string,
@@ -162,7 +100,6 @@ export type CurrentFilmDataType = null | {
     has3D: boolean
     lastSync: string
 }
-
 export type FilmPersonType = {
     staffId: number
     nameRu: string
@@ -175,7 +112,7 @@ export type FilmPersonType = {
 
 type ActionsType = SetFilmsACType | changeSearchInputValueACType | setCurrentPageACType | setPageTitleACType
     | setSearchValueACType | setModeACType | changeIsLoaderACType | setPreviousModeACType | setCurrentFilmACType
-    | setFilmPersonsACType | SetErrorACType
+    | SetErrorACType
 
 const initialState: StateType = {
     filmsData: {
@@ -200,23 +137,23 @@ const initialState: StateType = {
 
 export const dataReducer = (state: StateType = initialState, action: ActionsType): StateType => {
     switch (action.type) {
-        case SET_FILMS:
+        case 'SET_FILMS':
             return {...state, filmsData: action.state}
-        case CHANGE_SEARCH_VALUE:
+        case 'CHANGE_SEARCH_VALUE':
             return {...state, searchChangeInputValue: action.value}
-        case SET_CURRENT_PAGE:
+        case 'SET_CURRENT_PAGE':
             return {...state, currentPage: action.pageNumber}
-        case SET_PAGE_TITLE:
+        case 'SET_PAGE_TITLE':
             return {...state, pageTitle: action.title}
-        case SET_SEARCH_VALUE:
+        case 'SET_SEARCH_VALUE':
             return {...state, searchValue: action.value}
-        case SET_MODE:
+        case 'SET_MODE':
             return {...state, mode: action.mode, currentPage: 1}
-        case CHANGE_IS_LOADER:
+        case 'CHANGE_IS_LOADER':
             return {...state, isLoader: action.isLoader}
-        case SET_PREVIOUS_MODE:
+        case 'SET_PREVIOUS_MODE':
             return {...state, previousMode: action.mode}
-        case SET_CURRENT_FILM:
+        case 'SET_CURRENT_FILM':
             return {
                 ...state,
                 currentFilm: {...state.currentFilm, currentFilmData: action.currentFilm, filmPersons: action.persons}
@@ -227,73 +164,24 @@ export const dataReducer = (state: StateType = initialState, action: ActionsType
     }
 }
 
-export const setFilmsAC = (state: FilmsDataType): SetFilmsACType => {
-    return {
-        type: SET_FILMS,
-        state
-    }
-}
-
-export const changeSearchInputValueAC = (value: string): changeSearchInputValueACType => {
-    return {
-        type: CHANGE_SEARCH_VALUE,
-        value
-    }
-}
-
-export const setCurrentPageAC = (pageNumber: number): setCurrentPageACType => {
-    return {
-        type: SET_CURRENT_PAGE,
-        pageNumber
-    }
-}
-
-export const setPageTitleAC = (title: string): setPageTitleACType => {
-    return {
-        type: SET_PAGE_TITLE,
-        title
-    }
-}
-
-export const setSearchValueAC = (value: string): setSearchValueACType => {
-    return {
-        type: SET_SEARCH_VALUE,
-        value
-    }
-}
-
-export const setModeAC = (mode: ModeType): setModeACType => {
-    return {
-        type: SET_MODE,
-        mode
-    }
-}
-
-export const changeIsLoaderAC = (isLoader: boolean): changeIsLoaderACType => {
-    return {
-        type: CHANGE_IS_LOADER,
-        isLoader
-    }
-}
-
-export const setPreviousModeAC = (mode: ModeType): setPreviousModeACType => {
-    return {
-        type: SET_PREVIOUS_MODE,
-        mode
-    }
-}
-
-export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: FilmPersonType[]): setCurrentFilmACType => {
-    return {
-        type: SET_CURRENT_FILM,
-        currentFilm,
-        persons
-    }
-}
+export const setFilmsAC = (state: FilmsDataType) => ({type: 'SET_FILMS', state} as const)
+export const changeSearchInputValueAC = (value: string) =>
+    ({type: 'CHANGE_SEARCH_VALUE', value} as const)
+export const setCurrentPageAC = (pageNumber: number) =>
+    ({type: 'SET_CURRENT_PAGE', pageNumber} as const)
+export const setPageTitleAC = (title: string) => ({type: 'SET_PAGE_TITLE', title} as const)
+export const setSearchValueAC = (value: string) => ({type: 'SET_SEARCH_VALUE', value} as const)
+export const setModeAC = (mode: ModeType) => ({type: 'SET_MODE', mode} as const)
+export const changeIsLoaderAC = (isLoader: boolean) =>
+    ({type: 'CHANGE_IS_LOADER', isLoader} as const)
+export const setPreviousModeAC = (mode: ModeType) =>
+    ({type: 'SET_PREVIOUS_MODE', mode} as const)
+export const setCurrentFilmAC = (currentFilm: CurrentFilmDataType, persons: FilmPersonType[]) =>
+({type: 'SET_CURRENT_FILM', currentFilm, persons} as const)
 export const setErrorAC = (error: string) =>({type: 'SET_ERROR', error} as const)
 
 export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250_BEST_FILMS') => {
-    return (dispatch: Dispatch, getState: () => RootStateType) => {
+    return (dispatch: Dispatch<ActionsType>, getState: () => RootStateType) => {
         const state = getState().data
         dispatch(changeIsLoaderAC(true))
         if (!searchValue) {
@@ -332,7 +220,7 @@ export const getFilmTC = (searchValue: string = '', mode: TopModeType = 'TOP_250
 }
 
 export const getCurrentFilmTC = (filmId: string) => {
-    return (dispatch: Dispatch) =>{
+    return (dispatch: Dispatch<ActionsType>) =>{
         dispatch(changeIsLoaderAC(true))
         api.getFilmById(filmId)
             .then(response => {
