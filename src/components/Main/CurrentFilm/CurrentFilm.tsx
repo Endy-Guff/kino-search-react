@@ -3,6 +3,7 @@ import {Preloader} from "../../common/Preloader/Preloader";
 import {CurrentFilmDataType, FilmPersonType} from "../../../redux/dataReducer";
 import s from './CurrentFilm.module.css'
 import {Persons} from "./Persons/Persons";
+import {numstr} from "../../../utils/minuteEnding";
 
 type CurrentFilmPropsType = {
     film: CurrentFilmDataType
@@ -16,26 +17,8 @@ export const CurrentFilm: React.FC<CurrentFilmPropsType> = memo((
     }
 ) => {
 
-
     if (!film) {
         return <Preloader/>
-    }
-
-    const numstr = (n: number) => {
-        const minutes = ['минута', 'минуты', 'минут']
-
-        let m = Math.abs(n) % 100;
-        let n1 = m % 10;
-        if (m > 10 && m < 20) {
-            return `${n} ${minutes[2]}`;
-        }
-        if (n1 > 1 && n1 < 5) {
-            return `${n} ${minutes[1]}`;
-        }
-        if (n1 == 1) {
-            return `${n} ${minutes[0]}`;
-        }
-        return `${n} ${minutes[2]}`;
     }
 
     const mappedCountries = film.countries?.map((c, i) => <span key={i}>{c.country}, &nbsp;</span>)

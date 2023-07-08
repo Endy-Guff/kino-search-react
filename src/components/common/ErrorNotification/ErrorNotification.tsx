@@ -5,9 +5,7 @@ import {RootStateType} from "../../../redux/store";
 import {setErrorAC} from "../../../redux/dataReducer";
 
 const ErrorNotificationContainer = () => {
-
     const error = useSelector<RootStateType, string>(state=>state.data.error)
-
 
     return (<>
         {error&&<ErrorNotification error={error}/>}

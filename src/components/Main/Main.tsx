@@ -11,10 +11,8 @@ import {Menu} from "../Menu/Menu";
 
 
 export const Main = () => {
-
+    const location = useLocation()
     const wrapperRef = useRef<HTMLInputElement>(null)
-
-
     const data = useSelector<RootStateType, StateType>(state => state.data)
     const dispatch = useAppDispatch()
 
@@ -22,8 +20,6 @@ export const Main = () => {
     for (let i = 1; i <= data.filmsData.pagesCount; i++) {
         pages.push(i)
     }
-
-    const location = useLocation()
 
     const setCurrentPage = useCallback((pageNumber: number) => {
         dispatch(setCurrentPageAC(pageNumber))
