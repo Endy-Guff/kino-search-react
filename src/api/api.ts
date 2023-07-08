@@ -1,12 +1,10 @@
-import axios from "axios";
 import {
     CurrentFilmDataType,
-    CurrentFilmType,
     FilmPersonType,
     FilmsDataType,
-    ModeType,
     TopModeType
 } from "../redux/dataReducer";
+import axios from "axios";
 
 export const instance = axios.create({
     baseURL: 'https://kinopoiskapiunofficial.tech/api/v2.2',
